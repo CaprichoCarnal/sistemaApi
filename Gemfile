@@ -32,10 +32,10 @@ gem "jbuilder"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
-
+gem "active_model_serializers"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
-
+gem "rack-cors"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
@@ -51,6 +51,16 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem 'rubocop', '~> 1.6', '>= 1.6.1', require: false
+  gem 'rspec', '~> 3.11'
+  gem 'rspec-rails', '~> 5.1', '>= 5.1.2'
+
+  gem 'rubocop-gitlab-security', '~> 0.1.1'
+  gem 'rubocop-performance', '~> 1.14', '>= 1.14.3', require: false
+  gem 'rubocop-rails', '~> 2.15', '>= 2.15.2', require: false
+  gem 'rubocop-rspec', '~> 2.12', '>= 2.12.1', require: false
+  gem 'factory_bot_rails'
+  gem 'byebug'
 end
 
 group :development do
