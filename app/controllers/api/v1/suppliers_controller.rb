@@ -44,6 +44,6 @@ class Api::V1::SuppliersController < ApplicationController
     end
   
     def supplier_params
-      params.require(:supplier).permit(:fiscal_name, :commercial_name, :address, :postal_code, :city, :province, :country, :document_type, :document, :phone, :mobile, :email)
+      params.permit(:fiscal_name, :commercial_name, :address, :postal_code, :city, :province, :country, :document_type, :document, :phone, :mobile, :email)
     end
 end

@@ -45,6 +45,6 @@ class Api::V1::RolesController < ApplicationController
     end
   
     def role_params
-      params.require(:role).permit(:name)
+      params.permit(:name)
     end
 end

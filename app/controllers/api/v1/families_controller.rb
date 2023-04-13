@@ -45,6 +45,6 @@ class Api::V1::FamiliesController < ApplicationController
     end
   
     def family_params
-      params.require(:family).permit(:code, :name)
+      params.permit(:code, :name)
     end
 end
