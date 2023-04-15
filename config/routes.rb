@@ -29,6 +29,13 @@ Rails.application.routes.draw do
       resources :users
     end
   end
+
+   namespace :api do
+    namespace :v1 do
+      resources :users
+      post "/auth/login", to: "authentication#login"
+    end
+  end
   # Defines the root path route ("/")
   # root "articles#index"
 end
