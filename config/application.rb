@@ -12,7 +12,7 @@ module Example
     config.load_defaults 7.0
 
     # Habilitar la protección CSRF
-    config.action_controller.default_protect_from_forgery = true
+    config.action_controller.default_protect_from_forgery = false
 
     # Configuration for the application, engines, and railties goes here.
     #
