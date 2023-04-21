@@ -4,8 +4,7 @@ class Api::V1::ChannelsController < ApplicationController
     # GET /channels
     def index
         @channels = Channel.all
-
-        render json: @channels
+        render json: @channels.to_json(include: { family: { only: [:name, :code] }, supplier: { only: :commercial_name } })
     end
 
     # GET /channels/1
