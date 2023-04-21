@@ -10,9 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_19_043733) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_21_141744) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "channels", force: :cascade do |t|
+    t.bigint "family_id", null: false
+    t.bigint "supplier_id", null: false
+    t.date "born_date"
+    t.string "born_in"
+    t.string "raised_in"
+    t.date "slaughter_date"
+    t.string "slaughtered_in"
+    t.string "crotal"
+    t.string "lot"
+    t.float "weight"
+    t.float "temperature"
+    t.string "classification"
+    t.boolean "available"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["family_id"], name: "index_channels_on_family_id"
+    t.index ["supplier_id"], name: "index_channels_on_supplier_id"
+  end
 
   create_table "customers", force: :cascade do |t|
     t.string "fiscal_name"
@@ -88,5 +108,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_19_043733) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "channels", "families"
+  add_foreign_key "channels", "suppliers"
   add_foreign_key "users", "roles"
 end

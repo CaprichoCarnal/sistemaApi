@@ -6,8 +6,9 @@ class Api::V1::LocationsController < ApplicationController
         poblaciones = Location.select(:city).distinct.order(:city).pluck(:city)
         provincias = Location.select(:province).distinct.order(:province).pluck(:province)
         codigos_postales = Location.select(:postal_code).distinct.order(:postal_code).pluck(:postal_code)
-        
-        render json: { Poblaciones: poblaciones, Provincias: provincias, "Codigos-postales": codigos_postales }
+        country = Location.select(:country).distinct.order(:country).pluck(:country)
+
+        render json: { Poblaciones: poblaciones, Provincias: provincias, "Codigos-postales": codigos_postales, Country: country }
     end
   
   
