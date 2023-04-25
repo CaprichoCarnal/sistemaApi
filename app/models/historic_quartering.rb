@@ -1,0 +1,2 @@
+class HistoricQuartering < ApplicationRecord
+end
