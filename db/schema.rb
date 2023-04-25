@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_25_162816) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_25_211643) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -92,6 +92,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_162816) do
     t.string "city"
     t.string "province"
     t.string "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "process_histories", force: :cascade do |t|
+    t.date "date"
+    t.string "material_name"
+    t.string "material_lot_number"
+    t.string "product_name"
+    t.string "product_lot_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
