@@ -65,6 +65,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :historic_quarterings
+      resources :historical_elaborations
     end
   end
 
