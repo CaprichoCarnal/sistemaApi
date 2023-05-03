@@ -51,6 +51,6 @@ class Api::V1::LocationsController < ApplicationController
     end
   
     def location_params
-      params.require(:location).permit(:postal_code, :city, :province, :country)
+      params.permit(:postal_code, :city, :province, :country)
     end
 end

@@ -39,6 +39,6 @@ class Api::V1::ProcessHistoriesController < ApplicationController
     end
 
     def process_history_params
-        params.require(:process_history).permit(:date, :material_name, :material_lot_number, :product_name, :product_lot_number)
+        params.permit(:date, :material_name, :material_lot_number, :product_name, :product_lot_number)
     end
 end

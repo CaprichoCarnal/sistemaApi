@@ -1,6 +1,7 @@
-class CreateChannels < ActiveRecord::Migration[7.0]
+class CreateRawMaterials < ActiveRecord::Migration[7.0]
   def change
-    create_table :channels do |t|
+    create_table :raw_materials do |t|
+      t.references :raw_material_purchase, null: false, foreign_key: true
       t.references :family, null: false, foreign_key: true
       t.references :supplier, null: false, foreign_key: true
       t.date :born_date
@@ -13,7 +14,7 @@ class CreateChannels < ActiveRecord::Migration[7.0]
       t.float :weight
       t.float :temperature
       t.string :classification
-      t.boolean :available
+      t.string :available
 
       t.timestamps
     end

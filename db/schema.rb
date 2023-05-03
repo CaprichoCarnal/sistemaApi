@@ -10,29 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_25_211643) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_02_001045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "channels", force: :cascade do |t|
-    t.bigint "family_id", null: false
-    t.bigint "supplier_id", null: false
-    t.date "born_date"
-    t.string "born_in"
-    t.string "raised_in"
-    t.date "slaughter_date"
-    t.string "slaughtered_in"
-    t.string "crotal"
-    t.string "lot"
-    t.float "weight"
-    t.float "temperature"
-    t.string "classification"
-    t.boolean "available"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["family_id"], name: "index_channels_on_family_id"
-    t.index ["supplier_id"], name: "index_channels_on_supplier_id"
-  end
 
   create_table "customers", force: :cascade do |t|
     t.string "fiscal_name"
@@ -96,6 +76,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_211643) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "piecenames", force: :cascade do |t|
+    t.bigint "family_id", null: false
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["family_id"], name: "index_piecenames_on_family_id"
+  end
+
   create_table "process_histories", force: :cascade do |t|
     t.date "date"
     t.string "material_name"
@@ -104,6 +92,48 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_211643) do
     t.string "product_lot_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "raw_material_purchases", force: :cascade do |t|
+    t.date "date_of_purchase"
+    t.bigint "supplier_id", null: false
+    t.string "invoice_code"
+    t.string "item"
+    t.bigint "family_id", null: false
+    t.string "description"
+    t.string "lot"
+    t.integer "quantity"
+    t.integer "price"
+    t.integer "discount"
+    t.integer "total"
+    t.integer "vat"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["family_id"], name: "index_raw_material_purchases_on_family_id"
+    t.index ["supplier_id"], name: "index_raw_material_purchases_on_supplier_id"
+  end
+
+  create_table "raw_materials", force: :cascade do |t|
+    t.bigint "raw_material_purchase_id", null: false
+    t.bigint "family_id", null: false
+    t.bigint "supplier_id", null: false
+    t.date "born_date"
+    t.string "born_in"
+    t.string "raised_in"
+    t.date "slaughter_date"
+    t.string "slaughtered_in"
+    t.string "crotal"
+    t.string "lot"
+    t.float "weight"
+    t.float "temperature"
+    t.string "classification"
+    t.string "available"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["family_id"], name: "index_raw_materials_on_family_id"
+    t.index ["raw_material_purchase_id"], name: "index_raw_materials_on_raw_material_purchase_id"
+    t.index ["supplier_id"], name: "index_raw_materials_on_supplier_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -129,17 +159,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_211643) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "supplies", force: :cascade do |t|
-    t.bigint "supplier_id", null: false
-    t.string "lot"
-    t.string "name"
-    t.integer "quantity"
-    t.float "weight"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["supplier_id"], name: "index_supplies_on_supplier_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -150,8 +169,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_211643) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
-  add_foreign_key "channels", "families"
-  add_foreign_key "channels", "suppliers"
-  add_foreign_key "supplies", "suppliers"
+  add_foreign_key "piecenames", "families"
+  add_foreign_key "raw_material_purchases", "families"
+  add_foreign_key "raw_material_purchases", "suppliers"
+  add_foreign_key "raw_materials", "families"
+  add_foreign_key "raw_materials", "raw_material_purchases"
+  add_foreign_key "raw_materials", "suppliers"
   add_foreign_key "users", "roles"
 end

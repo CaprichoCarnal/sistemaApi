@@ -3,32 +3,22 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :families
-    end
-  end
-
-  namespace :api do
-    namespace :v1 do
       resources :suppliers
-    end
-  end
-
-  namespace :api do
-    namespace :v1 do
       resources :customers
-    end
-  end
-
-  namespace :api do
-    namespace :v1 do
       resources :roles
+      resources :users
+      resources :document_types
+      resources :locations
+      resources :raw_materials
+      resources :raw_material_purchases
+      resources :historic_quarterings
+      resources :historical_elaborations
+      resources :process_histories
+      resources :piece_names
+      resources :raw_materials_available, only: [:index, :update]
     end
   end
 
-  namespace :api do
-    namespace :v1 do
-      resources :users
-    end
-  end
 
    namespace :api do
     namespace :v1 do
@@ -38,37 +28,7 @@ Rails.application.routes.draw do
   end
 
   
-  # Defines the root path route ("/")
-  # root "articles#index"
-  namespace :api do
-    namespace :v1 do
-      resources :document_types
-    end
-  end
-  namespace :api do
-    namespace :v1 do
-      resources :locations
-    end
-  end
-  namespace :api do
-    namespace :v1 do
-      resources :channels
-    end
-  end
 
-  namespace :api do
-    namespace :v1 do
-      resources :supplies
-    end
-  end
-
-  namespace :api do
-    namespace :v1 do
-      resources :historic_quarterings
-      resources :historical_elaborations
-      resources :process_histories
-    end
-  end
 
 
 end

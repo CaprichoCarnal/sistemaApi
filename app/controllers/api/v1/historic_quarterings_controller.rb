@@ -34,6 +34,6 @@ class Api::V1::HistoricQuarteringsController < ApplicationController
     end
 
     def historic_quartering_params
-        params.require(:historic_quartering).permit(:date, :id_channel, :piece_name, :lot, :operator_signature)
+        params.permit(:date, :id_channel, :piece_name, :lot, :operator_signature)
     end
 end

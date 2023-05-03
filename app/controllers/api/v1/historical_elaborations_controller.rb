@@ -44,6 +44,6 @@ class Api::V1::HistoricalElaborationsController < ApplicationController
     end
 
     def historical_elaboration_params
-        params.require(:historical_elaboration).permit(:date, :product_name, :ingredients, :lot_number, :final_lot_number, :final_weight)
+        params.permit(:date, :product_name, :ingredients, :lot_number, :final_lot_number, :final_weight)
     end
 end
