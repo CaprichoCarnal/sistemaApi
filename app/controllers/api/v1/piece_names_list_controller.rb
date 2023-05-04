@@ -1,21 +1,9 @@
-class Api::V1::PieceNamesController < ApplicationController
+class Api::V1::PieceNamesListController < ApplicationController
     before_action :set_piecename, only: [:show, :edit, :update, :destroy]
 
     def index
-      @piecenames = Piecename.includes(:family).all.group_by(&:family_id)
-
-      # Obtener los nombres de las familias correspondientes a los family_id
-      family_names = Family.where(id: @piecenames.keys).pluck(:id, :name).to_h
-    
-      # Reemplazar los family_id con los nombres correspondientes en cada grupo
-      @piecenames.transform_keys! { |family_id| family_names[family_id] }
-    
-      # Construir un nuevo hash excluyendo las propiedades created_at y updated_at
-      result = @piecenames.transform_values do |pieces|
-        pieces.map { |piece| piece.as_json(except: [:created_at, :updated_at]) }
-      end
-    
-      render json: result.to_json(include: { family: { only: :name } })
+        @piecenames = Piecename.includes(:family).all
+        render json: @piecenames.as_json(include: { family: { only: :name } }, except: [:created_at, :updated_at])
     end
 
   def show

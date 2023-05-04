@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resources :historical_elaborations
       resources :process_histories
       resources :piece_names
+      resources :piece_names_list
       resources :raw_materials_available, only: [:index, :update]
     end
   end
