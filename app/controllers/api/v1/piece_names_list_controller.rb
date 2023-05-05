@@ -17,11 +17,12 @@ class Api::V1::PieceNamesListController < ApplicationController
   def create
     @piecename = Piecename.new(piecename_params)
     if @piecename.save
-      render json: @piecename, status: :created, location: @piecename
+      render json: @piecename, status: :created
     else
       render json: @piecename.errors, status: :unprocessable_entity
     end
   end
+  
 
   def edit
   end
@@ -44,8 +45,8 @@ class Api::V1::PieceNamesListController < ApplicationController
   def set_piecename
     @piecename = Piecename.find(params[:id])
   end
-
   def piecename_params
     params.permit(:name, :family_id)
   end
+  
 end
