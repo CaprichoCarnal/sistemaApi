@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_02_001045) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_08_014014) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -94,6 +94,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_001045) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "purchase_supplies", force: :cascade do |t|
+    t.string "date_of_purchase"
+    t.bigint "supplier_id", null: false
+    t.string "invoice_code"
+    t.string "item"
+    t.string "description"
+    t.string "lot"
+    t.integer "quantity"
+    t.integer "price"
+    t.integer "discount"
+    t.integer "total"
+    t.integer "vat"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["supplier_id"], name: "index_purchase_supplies_on_supplier_id"
+  end
+
   create_table "raw_material_purchases", force: :cascade do |t|
     t.date "date_of_purchase"
     t.bigint "supplier_id", null: false
@@ -159,6 +177,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_001045) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "supplies", force: :cascade do |t|
+    t.bigint "supplier_id", null: false
+    t.string "lot"
+    t.string "name"
+    t.integer "quantity"
+    t.float "weight"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["supplier_id"], name: "index_supplies_on_supplier_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -170,10 +199,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_02_001045) do
   end
 
   add_foreign_key "piecenames", "families"
+  add_foreign_key "purchase_supplies", "suppliers"
   add_foreign_key "raw_material_purchases", "families"
   add_foreign_key "raw_material_purchases", "suppliers"
   add_foreign_key "raw_materials", "families"
   add_foreign_key "raw_materials", "raw_material_purchases"
   add_foreign_key "raw_materials", "suppliers"
+  add_foreign_key "supplies", "suppliers"
   add_foreign_key "users", "roles"
 end
