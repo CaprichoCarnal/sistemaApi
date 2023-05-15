@@ -18,6 +18,9 @@ Rails.application.routes.draw do
       resources :piece_names_list
       resources :supplies
       resources :purchase_supplies
+      resources :elaborated_products
+      resources :elaborated_product_materials
+      resources :cuts, only: [:index, :show, :create, :update, :destroy]
       resources :raw_materials_available, only: [:index, :update]
     end
   end

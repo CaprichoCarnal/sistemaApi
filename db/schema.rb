@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_08_014014) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_15_002916) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,10 +33,47 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_014014) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "cuts", force: :cascade do |t|
+    t.bigint "raw_material_id", null: false
+    t.string "name"
+    t.string "lot"
+    t.float "weight"
+    t.boolean "matured"
+    t.date "maturity_start_date"
+    t.date "maturity_end_date"
+    t.boolean "frozen"
+    t.boolean "available_for_sale"
+    t.string "prepared_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["raw_material_id"], name: "index_cuts_on_raw_material_id"
+  end
+
   create_table "document_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "elaborated_product_materials", force: :cascade do |t|
+    t.bigint "elaborated_product_id", null: false
+    t.bigint "supply_id", null: false
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["elaborated_product_id"], name: "index_elaborated_product_materials_on_elaborated_product_id"
+    t.index ["supply_id"], name: "index_elaborated_product_materials_on_supply_id"
+  end
+
+  create_table "elaborated_products", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "lot"
+    t.string "prepared_by"
+    t.bigint "cut_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cut_id"], name: "index_elaborated_products_on_cut_id"
   end
 
   create_table "families", force: :cascade do |t|
@@ -198,6 +235,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_014014) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "cuts", "raw_materials"
+  add_foreign_key "elaborated_product_materials", "elaborated_products"
+  add_foreign_key "elaborated_product_materials", "supplies"
+  add_foreign_key "elaborated_products", "cuts"
   add_foreign_key "piecenames", "families"
   add_foreign_key "purchase_supplies", "suppliers"
   add_foreign_key "raw_material_purchases", "families"
