@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_15_002916) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_17_154053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "article_names", force: :cascade do |t|
+    t.bigint "family_id", null: false
+    t.string "code"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["family_id"], name: "index_article_names_on_family_id"
+  end
 
   create_table "customers", force: :cascade do |t|
     t.string "fiscal_name"
@@ -235,6 +244,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_002916) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  add_foreign_key "article_names", "families"
   add_foreign_key "cuts", "raw_materials"
   add_foreign_key "elaborated_product_materials", "elaborated_products"
   add_foreign_key "elaborated_product_materials", "supplies"
