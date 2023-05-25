@@ -45,6 +45,6 @@ class Api::V1::ElaboratedProductsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def elaborated_product_params
-    params.require(:elaborated_product).permit(:name, :description, :lot, :weight ,:prepared_by ,:cut_id, elaborated_product_materials_attributes: [:id, :supply_id, :quantity, :_destroy])
+    params.require(:elaborated_product).permit(:name, :description, :lot, :weight ,:prepared_by ,:cut_id, :frozen, :expiration_date ,elaborated_product_materials_attributes: [:id, :supply_id, :quantity, :_destroy])
   end
 end
