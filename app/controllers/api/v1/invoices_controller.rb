@@ -41,6 +41,6 @@ class Api::V1::InvoicesController < ApplicationController
     end
   
     def invoice_params
-      params.require(:invoice).permit(:sale_id, :number, :date, :total)
+      params.require(:invoice).permit(:sale_id, :number, :date, :total,:status)
     end
 end
