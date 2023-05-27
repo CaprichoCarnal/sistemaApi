@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_24_165917) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_27_150620) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -115,6 +115,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_165917) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "inventories", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.bigint "item_id", null: false
+    t.string "category"
+    t.string "lot"
+    t.float "weight"
+    t.date "expiration_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_type", "item_id"], name: "index_inventories_on_item"
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.bigint "sale_id", null: false
+    t.string "number"
+    t.date "date"
+    t.decimal "total"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sale_id"], name: "index_invoices_on_sale_id"
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string "postal_code"
     t.string "city"
@@ -208,6 +230,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_165917) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sale_items", force: :cascade do |t|
+    t.bigint "sale_id", null: false
+    t.bigint "inventory_id", null: false
+    t.integer "quantity"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["inventory_id"], name: "index_sale_items_on_inventory_id"
+    t.index ["sale_id"], name: "index_sale_items_on_sale_id"
+  end
+
+  create_table "sales", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.date "date"
+    t.decimal "total"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_sales_on_customer_id"
+  end
+
   create_table "suppliers", force: :cascade do |t|
     t.string "fiscal_name"
     t.string "commercial_name"
@@ -251,6 +293,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_165917) do
   add_foreign_key "elaborated_product_materials", "elaborated_products"
   add_foreign_key "elaborated_product_materials", "supplies"
   add_foreign_key "elaborated_products", "cuts"
+  add_foreign_key "invoices", "sales"
   add_foreign_key "piecenames", "families"
   add_foreign_key "purchase_supplies", "suppliers"
   add_foreign_key "raw_material_purchases", "families"
@@ -258,6 +301,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_24_165917) do
   add_foreign_key "raw_materials", "families"
   add_foreign_key "raw_materials", "raw_material_purchases"
   add_foreign_key "raw_materials", "suppliers"
+  add_foreign_key "sale_items", "inventories"
+  add_foreign_key "sale_items", "sales"
+  add_foreign_key "sales", "customers"
   add_foreign_key "supplies", "suppliers"
   add_foreign_key "users", "roles"
 end
