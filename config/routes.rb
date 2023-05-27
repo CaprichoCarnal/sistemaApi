@@ -27,6 +27,10 @@ Rails.application.routes.draw do
       resources :invoices
       resources :cuts, only: [:index, :show, :create, :update, :destroy]
       resources :raw_materials_available, only: [:index, :update]
+
+      get '/reports/sales', to: 'reports#sales_report'
+      get '/reports/purchases', to: 'reports#purchases_report'
+      get '/reports/inventory', to: 'reports#inventory_report'
     end
   end
 
