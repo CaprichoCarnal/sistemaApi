@@ -1,10 +1,10 @@
 class Api::V1::SaleItemsController < ApplicationController
     before_action :set_sale_item, only: [:show, :update, :destroy]
 
-      def index
-        @sale_items = SaleItem.all
-        render json: @sale_items
-      end
+    def index
+      @sale_items = SaleItem.includes(:sale, :inventory).all
+      render json: @sale_items, include: [:sale, :inventory]
+    end
 
       def show
         render json: @sale_item
