@@ -2,7 +2,7 @@ class Api::V1::SuppliesController < ApplicationController
     before_action :set_supply, only: [:show, :update, :destroy]
 
     def index
-      @supplies = Supply.all
+      @supplies = Supply.order(created_at: :asc).all
       render json: @supplies
     end
   

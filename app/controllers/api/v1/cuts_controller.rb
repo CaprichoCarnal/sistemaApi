@@ -3,7 +3,7 @@ class Api::V1::CutsController < ApplicationController
         before_action :set_cut, only: [:show, :update, :destroy]
       
         def index
-          @cuts = Cut.includes(:raw_material).all
+          @cuts = Cut.includes(:raw_material).order(created_at: :asc).all
           render json: @cuts.to_json(include: { raw_material: { only: [:name, :crotal] } })
         end
       

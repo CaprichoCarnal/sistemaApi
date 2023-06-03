@@ -2,8 +2,8 @@ class Api::V1::RawMaterialsController < ApplicationController
     before_action :set_raw_material, only: [:show, :update, :destroy]
 
     def index
-      raw_materials = RawMaterial.includes(:supplier, :family).all
-      render json: raw_materials.to_json(include: { supplier: { only: :commercial_name }, family: { only: [:name, :code] } })
+      raw_materials = RawMaterial.includes(:supplier, :family).order(created_at: :asc).all
+      render json: raw_materials.to_json(include: { supplier: { only: :commercial_name }, family: { only: [:name, :code] } })      
     end
 
   def show

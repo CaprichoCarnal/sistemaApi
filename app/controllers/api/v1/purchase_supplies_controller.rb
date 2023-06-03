@@ -2,7 +2,7 @@ class Api::V1::PurchaseSuppliesController < ApplicationController
     before_action :set_purchase_supply, only: [:show, :update, :destroy]
 
     def index
-      @purchase_supplies = PurchaseSupply.includes(:supplier).all
+      @purchase_supplies = PurchaseSupply.includes(:supplier).order(created_at: :asc).all
       render json: @purchase_supplies.to_json(include: { supplier: { only: :commercial_name } })
     end
     
