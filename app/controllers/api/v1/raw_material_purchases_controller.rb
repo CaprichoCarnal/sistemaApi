@@ -2,7 +2,7 @@ class Api::V1::RawMaterialPurchasesController < ApplicationController
   before_action :set_raw_material_purchase, only: [:show, :update, :destroy]
 
   def index
-    @raw_material_purchases = RawMaterialPurchase.includes(:supplier, :family).order(created_at: :asc).all
+    @raw_material_purchases = RawMaterialPurchase.includes(:supplier, :family).order(created_at: :desc).all
     render json: @raw_material_purchases.to_json(include: { supplier: { only: :commercial_name }, family: { only: [:name, :code] } })
   end
 

@@ -3,7 +3,7 @@ class Api::V1::ElaboratedProductsController < ApplicationController
 
   # GET /api/v1/elaborated_products
   def index
-    @elaborated_products = ElaboratedProduct.order(created_at: :asc).all
+    @elaborated_products = ElaboratedProduct.order(created_at: :desc).all
     render json: @elaborated_products, include: [:cut, elaborated_product_materials: { include: :supply }]
   end
 
