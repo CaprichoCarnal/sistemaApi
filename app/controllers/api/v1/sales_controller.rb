@@ -2,8 +2,8 @@ class Api::V1::SalesController < ApplicationController
     before_action :set_sale, only: [:show, :update, :destroy]
 
     def index
-      @sales = Sale.includes(:customer, :sale_items => [:inventory]).order(created_at: :desc).all
-      render json: @sales, include: { customer: {}, sale_items: { include: :inventory } }
+      @sales = Sale.includes(:customer, sale_items: { inventory: [:item] }).order(created_at: :desc).all
+      render json: @sales, include: { customer: {}, sale_items: { include: { inventory: { include: :item } } } }
     end
 
   def show
@@ -39,6 +39,6 @@ class Api::V1::SalesController < ApplicationController
   end
 
   def sale_params
-    params.require(:sale).permit(:customer_id, :date, :vat ,:total, sale_items_attributes: [:inventory_id, :quantity, :price])
+    params.require(:sale).permit(:customer_id, :date, :vat,:total, sale_items_attributes: [:inventory_id, :quantity, :price])
   end
 end
