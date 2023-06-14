@@ -9,7 +9,7 @@ class ElaboratedProduct < ApplicationRecord
 
   def update_inventory
     inventory = Inventory.find_or_initialize_by(item: self)
-    inventory.category = "Producto Elaborado"  # Categoría para los productos elaborados
+    inventory.category = "Productos Elaborados"  # Categoría para los productos elaborados
     inventory.weight = self.weight
     inventory.lot = self.lot
     inventory.save
@@ -28,6 +28,12 @@ class ElaboratedProduct < ApplicationRecord
       # Actualizar la cantidad del suministro restando la cantidad utilizada
       new_quantity = supply.quantity - quantity_used
       supply.update(quantity: new_quantity)
+
+       # Actualizar la cantidad del suministro en el inventario
+       supply_inventory = supply.inventories.find_or_initialize_by(item: supply)
+       supply_inventory.weight = new_quantity
+       supply_inventory.save
+       supply_inventory.destroy if new_quantity.zero?
     end
   end
 end

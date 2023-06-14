@@ -13,13 +13,13 @@ class Cut < ApplicationRecord
     inventory.lot = lot
 
     if matured && frozen
-      inventory.category = "Matured and Frozen Cuts"
+      inventory.category = "Cortes Madurados y Congelados"
     elsif matured
-      inventory.category = "Matured Cuts"
+      inventory.category = "Cortes Madurados"
     elsif frozen
-      inventory.category = "Frozen Cuts"
+      inventory.category = "Cortes Congelados"
     else
-      inventory.category = "Cuts"
+      inventory.category = "Cortes"
     end
 
     inventory.save

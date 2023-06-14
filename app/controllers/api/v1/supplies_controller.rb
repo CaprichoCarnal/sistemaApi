@@ -40,6 +40,6 @@ class Api::V1::SuppliesController < ApplicationController
     end
   
     def supply_params
-      params.permit(:supplier_id, :lot, :name, :quantity, :weight)
+      params.permit(:supplier_id, :lot, :name, :quantity, :weight,:available_for_sale)
     end
 end
