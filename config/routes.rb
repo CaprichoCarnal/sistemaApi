@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resources :sales
       resources :sale_items
       resources :invoices
+      resources :traceabilities
       resources :cuts, only: [:index, :show, :create, :update, :destroy]
       resources :raw_materials_available, only: [:index, :update]
 

@@ -1,6 +1,6 @@
 class Cut < ApplicationRecord
   belongs_to :raw_material
-
+  has_many :elaborated_products, dependent: :destroy
   after_save :update_inventory
   after_update :check_availability
   after_create :change_raw_material_availability
