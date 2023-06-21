@@ -3,7 +3,7 @@ class Api::V1::RawMaterialsController < ApplicationController
 
     def index
       raw_materials = RawMaterial.includes(:supplier, :family).order(created_at: :desc).all
-      render json: raw_materials.to_json(include: { supplier: { only: :commercial_name }, family: { only: [:name, :code] } })      
+      render json: raw_materials.to_json(include: { supplier: { only: :fiscal_name }, family: { only: [:name, :code] } })      
     end
 
   def show

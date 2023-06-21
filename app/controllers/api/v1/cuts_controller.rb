@@ -3,8 +3,9 @@ class Api::V1::CutsController < ApplicationController
         before_action :set_cut, only: [:show, :update, :destroy]
       
         def index
-          @cuts = Cut.includes(:raw_material).order(created_at: :asc).all
-          render json: @cuts.to_json(include: { raw_material: { only: [:name, :crotal] } })
+          @cuts = Cut.includes(:raw_material).order(created_at: :desc).all
+          render json: @cuts.to_json(include: { raw_material: { only: [:name, :crotal, :lot] } })
+
         end
       
         def show
@@ -16,7 +17,7 @@ class Api::V1::CutsController < ApplicationController
           @cuts = []
       
           cuts.each do |cut_params|
-            cut = Cut.new(cut_params.permit(:name, :lot ,:weight, :matured, :maturity_start_date, :maturity_end_date, :frozen, :available_for_sale, :prepared_by, :raw_material_id))
+            cut = Cut.new(cut_params.permit(:name, :lot ,:weight, :matured, :maturity_start_date, :maturity_end_date, :frozen, :available_for_sale, :prepared_by, :raw_material_id,:expiration_date))
             @cuts << cut if cut.save
           end
       
@@ -47,7 +48,7 @@ class Api::V1::CutsController < ApplicationController
         end
       
         def cut_params
-          params.require(:cut).permit(:name, :lot ,:weight, :matured, :maturity_start_date, :maturity_end_date, :frozen, :available_for_sale, :prepared_by, :raw_material_id)
+          params.require(:cut).permit(:name, :lot ,:weight, :matured, :maturity_start_date, :maturity_end_date, :frozen, :available_for_sale, :prepared_by, :raw_material_id,:expiration_date)
         end
      
 end

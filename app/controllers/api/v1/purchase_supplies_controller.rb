@@ -16,7 +16,7 @@ class Api::V1::PurchaseSuppliesController < ApplicationController
       @purchase_supplies = []
     
       purchase_supplies.each do |purchase_params|
-        purchase_supply = PurchaseSupply.new(purchase_params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :description, :lot, :quantity, :price, :discount, :total, :vat, :status))
+        purchase_supply = PurchaseSupply.new(purchase_params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :description, :lot, :quantity, :price, :discount, :total, :vat, :status,:weight,:raw_material))
         @purchase_supplies << purchase_supply if purchase_supply.save
       end
     
@@ -47,7 +47,7 @@ class Api::V1::PurchaseSuppliesController < ApplicationController
     end
     
     def purchase_supply_params
-      params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :description, :lot, :quantity, :price, :discount, :total, :vat, :status)
+      params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :description, :lot, :quantity, :price, :discount, :total, :vat, :status,:weight,:raw_material)
     end
     
 end

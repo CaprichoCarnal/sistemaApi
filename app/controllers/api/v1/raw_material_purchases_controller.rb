@@ -3,7 +3,7 @@ class Api::V1::RawMaterialPurchasesController < ApplicationController
 
   def index
     @raw_material_purchases = RawMaterialPurchase.includes(:supplier, :family).order(created_at: :desc).all
-    render json: @raw_material_purchases.to_json(include: { supplier: { only: :commercial_name }, family: { only: [:name, :code] } })
+    render json: @raw_material_purchases.to_json(include: { supplier: { only: :fiscal_name }, family: { only: [:name, :code] } })
   end
 
   def show
@@ -16,7 +16,7 @@ class Api::V1::RawMaterialPurchasesController < ApplicationController
     @raw_material_purchases = []
 
     raw_material_purchases.each do |purchase_params|
-      raw_material_purchase = RawMaterialPurchase.new(purchase_params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :family_id, :description, :lot, :quantity, :price, :discount, :total, :vat, :status))
+      raw_material_purchase = RawMaterialPurchase.new(purchase_params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :family_id, :description, :lot, :quantity, :price, :discount, :total, :vat, :status,:weight,:supply))
       @raw_material_purchases << raw_material_purchase if raw_material_purchase.save
     end
 
@@ -47,6 +47,6 @@ class Api::V1::RawMaterialPurchasesController < ApplicationController
   end
 
   def raw_material_purchase_params
-    params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :family_id, :description, :lot, :quantity, :price, :discount, :total, :vat, :status)
+    params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :family_id, :description, :lot, :quantity, :price, :discount, :total, :vat ,:status, :weight,:supply)
   end
 end

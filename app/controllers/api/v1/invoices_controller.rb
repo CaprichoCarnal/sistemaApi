@@ -10,6 +10,7 @@ class Api::V1::InvoicesController < ApplicationController
     def show
       render json: @invoice
     end
+
   
     def create
       @invoice = Invoice.new(invoice_params)
