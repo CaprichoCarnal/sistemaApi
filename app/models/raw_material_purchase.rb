@@ -6,7 +6,7 @@ class RawMaterialPurchase < ApplicationRecord
   attribute :status, :string, default: 'Pendiente'
 
   def create_raw_materials
-    quantity.times do 
+    quantity.times do
       RawMaterial.create!(
         raw_material_purchase: self,
         family: family,

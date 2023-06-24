@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resources :piece_names_list
       resources :supplies
       resources :purchase_supplies
+      resources :vats
       resources :elaborated_products
       resources :article_names
       resources :elaborated_product_materials
@@ -43,7 +44,7 @@ Rails.application.routes.draw do
     end
   end
 
-  
+
 
 
 
