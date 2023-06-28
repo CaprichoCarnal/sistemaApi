@@ -2,8 +2,7 @@ class RawMaterialPurchase < ApplicationRecord
   belongs_to :supplier
   belongs_to :family
   after_create :create_raw_materials
-  attribute :vat, :integer, default: 10
-  attribute :status, :string, default: 'Pendiente'
+
 
   def create_raw_materials
     quantity.times do

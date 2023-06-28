@@ -11,7 +11,7 @@ class Api::V1::RawMaterialPurchasesController < ApplicationController
   end
 
   def create
-    raw_material_purchases = params[:raw_material_purchases] 
+    raw_material_purchases = params[:raw_material_purchases]
 
     @raw_material_purchases = []
 
@@ -34,6 +34,7 @@ class Api::V1::RawMaterialPurchasesController < ApplicationController
       render json: @raw_material_purchase.errors, status: :unprocessable_entity
     end
   end
+
 
   def destroy
     @raw_material_purchase.destroy
