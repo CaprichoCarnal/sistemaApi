@@ -3,7 +3,7 @@ class Api::V1::RawMaterialsController < ApplicationController
 
     def index
       raw_materials = RawMaterial.includes(:supplier, :family).order(created_at: :desc).all
-      render json: raw_materials.to_json(include: { supplier: { only: :fiscal_name }, family: { only: [:name, :code] } })      
+      render json: raw_materials.to_json(include: { supplier: { only: :fiscal_name }, family: { only: [:name, :code] } })
     end
 
   def show
@@ -39,6 +39,6 @@ class Api::V1::RawMaterialsController < ApplicationController
   end
 
   def raw_material_params
-    params.permit(:raw_material_purchase_id, :family_id, :supplier_id, :born_date, :born_in, :raised_in, :slaughter_date, :slaughtered_in, :crotal, :lot, :weight, :temperature, :classification, :available)
+    params.permit(:raw_material_purchase_id, :family_id, :supplier_id, :born_date, :born_in, :raised_in, :slaughter_date, :slaughtered_in, :crotal, :lot, :weight, :temperature, :classification, :available,:material_type,:description)
   end
 end

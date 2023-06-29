@@ -16,7 +16,7 @@ class Api::V1::RawMaterialPurchasesController < ApplicationController
     @raw_material_purchases = []
 
     raw_material_purchases.each do |purchase_params|
-      raw_material_purchase = RawMaterialPurchase.new(purchase_params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :family_id, :description, :lot, :quantity, :price, :discount, :total, :vat, :status,:weight,:supply))
+      raw_material_purchase = RawMaterialPurchase.new(purchase_params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :family_id, :description, :lot, :quantity, :price, :discount, :total, :vat, :status,:weight,:cut))
       @raw_material_purchases << raw_material_purchase if raw_material_purchase.save
     end
 
@@ -48,6 +48,6 @@ class Api::V1::RawMaterialPurchasesController < ApplicationController
   end
 
   def raw_material_purchase_params
-    params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :family_id, :description, :lot, :quantity, :price, :discount, :total, :vat ,:status, :weight,:supply)
+    params.permit(:date_of_purchase, :supplier_id, :invoice_code, :item, :family_id, :description, :lot, :quantity, :price, :discount, :total, :vat ,:status, :weight,:cut)
   end
 end
