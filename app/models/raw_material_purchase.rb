@@ -1,6 +1,6 @@
 class RawMaterialPurchase < ApplicationRecord
   belongs_to :supplier
-  belongs_to :family
+  belongs_to :family, optional: true
   after_create :create_raw_materials
 
 

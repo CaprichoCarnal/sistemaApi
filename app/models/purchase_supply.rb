@@ -9,7 +9,7 @@ class PurchaseSupply < ApplicationRecord
       lot: self.lot,
       name: self.description,
       quantity: self.quantity,
-      weight: self.quantity,
+      weight: self.weight,
       available_for_sale: true
     )
   end
