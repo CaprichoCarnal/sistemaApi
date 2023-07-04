@@ -62,7 +62,7 @@ class Api::V1::PurchaseSuppliesController < ApplicationController
         supplier_id: purchase_supply.supplier_id,
         invoice_code: purchase_supply.invoice_code,
         item: purchase_supply.item,
-        family_id: 1,
+        family_id: 21,
         description: purchase_supply.description,
         lot: purchase_supply.lot,
         quantity: purchase_supply.quantity,
