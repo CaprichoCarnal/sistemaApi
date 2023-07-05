@@ -1,6 +1,6 @@
 class Api::V1::RawMaterialsAvailableController < ApplicationController
   def index
-    @raw_materials = RawMaterial.includes(:supplier, :family).where(available: 'Si')
+    @raw_materials = RawMaterial.includes(:supplier, :family).where(available: ['Si','Disponible para Despiece', 'Despiece Parcial'])
     render json: @raw_materials.to_json(include: { supplier: { only: :fiscal_name }, family: { only: [:name, :code] } })
   end
     

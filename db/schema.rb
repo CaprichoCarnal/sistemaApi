@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_29_013400) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_05_021421) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -56,6 +56,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_29_013400) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "expiration_date"
+    t.boolean "finished"
     t.index ["raw_material_id"], name: "index_cuts_on_raw_material_id"
   end
 
@@ -227,6 +228,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_29_013400) do
     t.datetime "updated_at", null: false
     t.string "material_type"
     t.string "description"
+    t.string "channel_number"
+    t.decimal "available_weight"
+    t.decimal "decrease"
     t.index ["family_id"], name: "index_raw_materials_on_family_id"
     t.index ["raw_material_purchase_id"], name: "index_raw_materials_on_raw_material_purchase_id"
     t.index ["supplier_id"], name: "index_raw_materials_on_supplier_id"
