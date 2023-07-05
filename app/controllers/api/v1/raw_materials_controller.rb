@@ -39,6 +39,6 @@ class Api::V1::RawMaterialsController < ApplicationController
   end
 
   def raw_material_params
-    params.permit(:raw_material_purchase_id, :family_id, :supplier_id, :born_date, :born_in, :raised_in, :slaughter_date, :slaughtered_in, :crotal, :lot, :weight, :temperature, :classification, :available,:material_type,:description)
+    params.permit(:raw_material_purchase_id, :family_id, :supplier_id, :born_date, :born_in, :raised_in, :slaughter_date, :slaughtered_in, :crotal, :lot, :weight, :temperature, :classification, :available,:material_type,:description,:channel_number,:available_weight,:decrease)
   end
 end

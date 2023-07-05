@@ -17,7 +17,7 @@ class Api::V1::CutsController < ApplicationController
           @cuts = []
       
           cuts.each do |cut_params|
-            cut = Cut.new(cut_params.permit(:name, :lot ,:weight, :matured, :maturity_start_date, :maturity_end_date, :frozen, :available_for_sale, :prepared_by, :raw_material_id,:expiration_date))
+            cut = Cut.new(cut_params.permit(:name, :lot ,:weight, :matured, :maturity_start_date, :maturity_end_date, :frozen, :available_for_sale, :prepared_by, :raw_material_id,:expiration_date,:finished))
             @cuts << cut if cut.save
           end
       
@@ -48,7 +48,7 @@ class Api::V1::CutsController < ApplicationController
         end
       
         def cut_params
-          params.require(:cut).permit(:name, :lot ,:weight, :matured, :maturity_start_date, :maturity_end_date, :frozen, :available_for_sale, :prepared_by, :raw_material_id,:expiration_date)
+          params.require(:cut).permit(:name, :lot ,:weight, :matured, :maturity_start_date, :maturity_end_date, :frozen, :available_for_sale, :prepared_by, :raw_material_id,:expiration_date,:finished)
         end
      
 end

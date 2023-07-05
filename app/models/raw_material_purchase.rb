@@ -32,6 +32,7 @@ class RawMaterialPurchase < ApplicationRecord
           family: family,
           supplier: supplier,
           description: description ,
+          channel_number: '',
           born_date: '',
           born_in: '',
           raised_in: '',
@@ -42,7 +43,7 @@ class RawMaterialPurchase < ApplicationRecord
           weight: '',
           temperature: '',
           classification: '',
-          available: 'Si',
+          available: 'Disponible para Despiece',
           material_type: 'Canal'
         )
       end

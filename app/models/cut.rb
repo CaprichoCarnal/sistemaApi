@@ -28,7 +28,6 @@ class Cut < ApplicationRecord
   def check_availability
     if available_for_sale_changed? && !available_for_sale
       remove_from_inventory
-      
     end
   end
 
@@ -36,7 +35,31 @@ class Cut < ApplicationRecord
     Inventory.where(item: self).destroy_all
   end
 
+  def update_available_weight
+    cuts_sum_weight = raw_material.cuts.sum(:weight)
+    available_weight = raw_material.weight - cuts_sum_weight
+    raw_material.update(available_weight: available_weight)
+  end
+
+  def update_decrease
+    total_cuts_weight = raw_material.cuts.sum(:weight)
+    decrease =  (total_cuts_weight - raw_material.weight).abs
+    raw_material.update(decrease: decrease)
+  end
+
   def change_raw_material_availability
-    raw_material.update(available: 'No')
+    cuts = Cut.where(raw_material: raw_material) # Obtener todos los cortes asociados al mismo raw_material
+    if cuts.any?(&:finished)
+      update_raw_material_availability('Despiece Finalizado')
+      update_available_weight
+      update_decrease
+    else
+      update_raw_material_availability('Despiece Parcial')
+      update_available_weight
+    end
+  end
+
+  def update_raw_material_availability(availability)
+    raw_material.update(available: availability)
   end
 end
