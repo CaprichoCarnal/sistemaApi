@@ -48,7 +48,7 @@ class Cut < ApplicationRecord
   end
 
   def change_raw_material_availability
-    cuts = Cut.where(raw_material: raw_material) # Obtener todos los cortes asociados al mismo raw_material
+    cuts = Cut.where(raw_material: raw_material) 
     if cuts.any?(&:finished)
       update_raw_material_availability('Despiece Finalizado')
       update_available_weight
