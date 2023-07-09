@@ -30,9 +30,23 @@ Rails.application.routes.draw do
       resources :cuts, only: [:index, :show, :create, :update, :destroy]
       resources :raw_materials_available, only: [:index, :update]
 
-      get '/reports/sales', to: 'reports#sales_report'
-      get '/reports/purchases', to: 'reports#purchases_report'
-      get '/reports/inventory', to: 'reports#inventory_report'
+      get '/reports/available_for_cutting', to: 'reports#count_available_for_cutting'
+      get '/reports/cutting_finished', to: 'reports#count_cutting_finished'
+      get '/reports/partial_cutting', to: 'reports#count_partial_cutting'
+      get '/reports/best_selling_products/weekly', to: 'reports#best_selling_products_weekly'
+      get '/reports/best_selling_products/monthly', to: 'reports#best_selling_products_monthly'
+      get '/reports/best_selling_products/yearly', to: 'reports#best_selling_products_yearly'
+      get '/reports/paid_purchases/raw_materials', to: 'reports#paid_purchases_report_raw_materials'
+      get '/reports/unpaid_purchases/raw_materials', to: 'reports#unpaid_purchases_report_raw_materials'
+      get '/reports/paid_purchases/supplies', to: 'reports#paid_purchases_report_supplies'
+      get '/reports/unpaid_purchases/supplies', to: 'reports#unpaid_purchases_report_supplies'
+      get '/reports/iva_balance/raw_materials', to: 'reports#iva_balance_raw_materials'
+      get '/reports/iva_balance/supplies', to: 'reports#iva_balance_supplies'
+      get '/reports/invoices_status', to: 'reports#invoices_status_report'
+
+
+
+
     end
   end
 

@@ -43,9 +43,11 @@ class Cut < ApplicationRecord
 
   def update_decrease
     total_cuts_weight = raw_material.cuts.sum(:weight)
-    decrease =  (total_cuts_weight - raw_material.weight).abs
-    raw_material.update(decrease: decrease)
+    decrease = (raw_material.weight - total_cuts_weight  ).abs
+    percentage_decrease = (decrease / raw_material.weight) * 100
+    raw_material.update(decrease: percentage_decrease)
   end
+  
 
   def change_raw_material_availability
     cuts = Cut.where(raw_material: raw_material) 

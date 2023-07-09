@@ -1,95 +1,233 @@
 class Api::V1::ReportsController < ApplicationController
-    def sales_report
-        sales = Sale.includes(:customer, :sale_items).all
-    
-        report = {
-          sales: sales.map { |sale| format_sale(sale) }
-        }
-    
-        render json: report
-      end
-    
-      def purchases_report
-        purchases = RawMaterialPurchase.includes(:supplier).all
-    
-        report = {
-          purchases: purchases.map { |purchase| format_purchase(purchase) }
-        }
-    
-        render json: report
-      end
-    
-      def inventory_report
-        inventories = Inventory.includes(:item).all
-    
-        report = {
-          inventories: inventories.map { |inventory| format_inventory(inventory) }
-        }
-    
-        render json: report
-      end
-    
-      private
-    
-      def format_sale(sale)
-        {
-          id: sale.id,
-          date: sale.date,
-          total: sale.total,
-          customer: format_customer(sale.customer),
-          items: sale.sale_items.map { |item| format_sale_item(item) }
-        }
-      end
-    
-      def format_customer(customer)
-        {
-          id: customer.id,
-          name: customer.name,
-          email: customer.email,
-          phone: customer.phone
-          # Agrega los campos adicionales que desees incluir en el informe
-        }
-      end
-    
-      def format_sale_item(item)
-        {
-          id: item.id,
-          quantity: item.quantity,
-          price: item.price,
-          inventory: format_inventory(item.inventory)
-        }
-      end
-    
-      def format_purchase(purchase)
-        {
-          id: purchase.id,
-          date_of_purchase: purchase.date_of_purchase,
-          supplier: format_supplier(purchase.supplier),
-          # Agrega los campos adicionales que desees incluir en el informe
-        }
-      end
-    
-      def format_inventory(inventory)
-        {
-          id: inventory.id,
-          item_type: inventory.item_type,
-          item_id: inventory.item_id,
-          category: inventory.category,
-          lot: inventory.lot,
-          weight: inventory.weight,
-          expiration_date: inventory.expiration_date
-          # Agrega los campos adicionales que desees incluir en el informe
-        }
-      end
-    
-      def format_supplier(supplier)
-        {
-          id: supplier.id,
-          fiscal_name: supplier.fiscal_name,
-          commercial_name: supplier.commercial_name,
-          email: supplier.email,
-          phone: supplier.phone
-          # Agrega los campos adicionales que desees incluir en el informe
-        }
-      end
+  def count_available_for_cutting
+    count = RawMaterial.where(available: "Disponible para Despiece").count
+  
+    response = {
+      status: "success",
+      message: "Informe de Materias Primas Disponibles para Despiece",
+      data: {
+        count: count
+      }
+    }
+  
+    render json: response
+  end
+  
+  def count_cutting_finished
+    count = RawMaterial.where(available: "Despiece Finalizado").count
+  
+    response = {
+      status: "success",
+      message: "Informe de Materias Primas Despiece Finalizado",
+      data: {
+        count: count
+      }
+    }
+  
+    render json: response
+  end
+  
+  def count_partial_cutting
+    count = RawMaterial.where(available: "Despiece Parcial").count
+  
+    response = {
+      status: "success",
+      message: "Informe de Materias Primas Despiece Parcial",
+      data: {
+        count: count
+      }
+    }
+  
+    render json: response
+  end
+
+  def best_selling_products_weekly
+    start_date = Date.today.beginning_of_week
+    end_date = Date.today.end_of_week
+  
+    weekly_sales = Sale.where(date: start_date..end_date).pluck(:id)
+    best_selling_items = SaleItem.where(sale_id: weekly_sales)
+                                 .group(:product_sold)
+                                 .sum(:quantity)
+                                 .sort_by { |_, quantity| -quantity }
+                                 .to_h
+  
+    response = {
+      status: "success",
+      message: "Informe de los productos más vendidos por semana",
+      data: {
+        best_selling_products: best_selling_items
+      }
+    }
+  
+    render json: response
+  end
+  
+  def best_selling_products_monthly
+    start_date = Date.today.beginning_of_month
+    end_date = Date.today.end_of_month
+  
+    monthly_sales = Sale.where(date: start_date..end_date).pluck(:id)
+    best_selling_items = SaleItem.where(sale_id: monthly_sales)
+                                 .group(:product_sold)
+                                 .sum(:quantity)
+                                 .sort_by { |_, quantity| -quantity }
+                                 .to_h
+  
+    response = {
+      status: "success",
+      message: "Informe de los productos más vendidos por mes",
+      data: {
+        best_selling_products: best_selling_items
+      }
+    }
+  
+    render json: response
+  end
+  
+  def best_selling_products_yearly
+    start_date = Date.today.beginning_of_year
+    end_date = Date.today.end_of_year
+  
+    yearly_sales = Sale.where(date: start_date..end_date).pluck(:id)
+    best_selling_items = SaleItem.where(sale_id: yearly_sales)
+                                 .group(:product_sold)
+                                 .sum(:quantity)
+                                 .sort_by { |_, quantity| -quantity }
+                                 .to_h
+  
+    response = {
+      status: "success",
+      message: "Informe de los productos más vendidos por año",
+      data: {
+        best_selling_products: best_selling_items
+      }
+    }
+  
+    render json: response
+  end
+  
+  
+  def paid_purchases_report_raw_materials
+    paid_purchases_raw_materials = RawMaterialPurchase.where(status: "pagadas")
+  
+    response = {
+      status: "success",
+      message: "Informe de Compras Pagadas - Materias Primas",
+      data: {
+        purchases: paid_purchases_raw_materials
+      }
+    }
+  
+    render json: response
+  end
+  
+  def unpaid_purchases_report_raw_materials
+    unpaid_purchases_raw_materials = RawMaterialPurchase.where(status: "por pagar")
+  
+    response = {
+      status: "success",
+      message: "Informe de Compras por Pagar - Materias Primas",
+      data: {
+        purchases: unpaid_purchases_raw_materials
+      }
+    }
+  
+    render json: response
+  end
+
+  
+  def paid_purchases_report_supplies
+    paid_purchases_supplies = PurchaseSupply.where(status: "pagadas")
+  
+    response = {
+      status: "success",
+      message: "Informe de Compras Pagadas - Suministros",
+      data: {
+        purchases: paid_purchases_supplies
+      }
+    }
+  
+    render json: response
+  end
+
+  
+  def unpaid_purchases_report_supplies
+    unpaid_purchases_supplies = PurchaseSupply.where(status: "por pagar")
+  
+    response = {
+      status: "success",
+      message: "Informe de Compras por Pagar - Suministros",
+      data: {
+        purchases: unpaid_purchases_supplies
+      }
+    }
+  
+    render json: response
+  end
+
+  def iva_balance_raw_materials
+    raw_materials = RawMaterialPurchase.all
+  
+    total_iva_balance_raw_materials = 0
+  
+    raw_materials.each do |raw_material|
+      iva_percentage = raw_material.vat.to_f / 100  # Convertir el porcentaje de IVA a decimal
+      iva_balance = raw_material.total * iva_percentage
+      total_iva_balance_raw_materials += iva_balance
+    end
+  
+    response = {
+      status: "success",
+      message: "Saldo en IVA - Materias Primas",
+      data: {
+        balance: total_iva_balance_raw_materials
+      }
+    }
+  
+    render json: response
+  end
+  
+  def iva_balance_supplies
+    supplies = PurchaseSupply.all
+  
+    total_iva_balance_supplies = 0
+  
+    supplies.each do |supply|
+      iva_percentage = supply.vat.to_f / 100  # Convertir el porcentaje de IVA a decimal
+      iva_balance = supply.total * iva_percentage
+      total_iva_balance_supplies += iva_balance
+    end
+  
+    response = {
+      status: "success",
+      message: "Saldo en IVA - Suministros",
+      data: {
+        balance: total_iva_balance_supplies
+      }
+    }
+  
+    render json: response
+  end
+
+  def invoices_status_report
+    pending_count = Invoice.where(status: "pendiente").count
+    paid_count = Invoice.where(status: "pagado").count
+  
+    response = {
+      status: "success",
+      message: "Informe de Facturas por Estado",
+      data: {
+        pending: pending_count,
+        paid: paid_count
+      }
+    }
+  
+    render json: response
+  end
+  
+  
+  
+  
+  
 end
