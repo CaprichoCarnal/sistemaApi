@@ -36,17 +36,23 @@ class Cut < ApplicationRecord
   end
 
   def update_available_weight
-    cuts_sum_weight = raw_material.cuts.sum(:weight)
-    available_weight = raw_material.weight - cuts_sum_weight
-    raw_material.update(available_weight: available_weight)
+    if raw_material && raw_material.weight
+      cuts_sum_weight = raw_material.cuts.sum(:weight)
+      available_weight = raw_material.weight - cuts_sum_weight
+      raw_material.update(available_weight: available_weight)
+    end
   end
+  
 
   def update_decrease
-    total_cuts_weight = raw_material.cuts.sum(:weight)
-    decrease = (raw_material.weight - total_cuts_weight  ).abs
-    percentage_decrease = (decrease / raw_material.weight) * 100
-    raw_material.update(decrease: percentage_decrease)
+    if raw_material && raw_material.weight
+      total_cuts_weight = raw_material.cuts.sum(:weight)
+      decrease = (raw_material.weight - total_cuts_weight).abs
+      percentage_decrease = (decrease / raw_material.weight) * 100
+      raw_material.update(decrease: percentage_decrease)
+    end
   end
+  
   
 
   def change_raw_material_availability
