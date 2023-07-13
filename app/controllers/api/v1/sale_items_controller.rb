@@ -40,6 +40,6 @@ class Api::V1::SaleItemsController < ApplicationController
       end
 
       def sale_item_params
-        params.require(:sale_item).permit(:sale_id, :inventory_id, :quantity, :price,:product_sold)
+        params.require(:sale_item).permit(:sale_id, :inventory_id, :quantity, :price,:product_sold,:weight)
       end
 end

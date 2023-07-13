@@ -10,7 +10,7 @@ class Sale < ApplicationRecord
   def update_inventory
     sale_items.each do |sale_item|
       inventory = sale_item.inventory
-      inventory.weight -= sale_item.quantity
+      inventory.weight -= sale_item.weight
       inventory.save
     end
   end
