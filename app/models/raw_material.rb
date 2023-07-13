@@ -17,7 +17,8 @@ class RawMaterial < ApplicationRecord
         maturity_end_date: nil,
         frozen: false,
         available_for_sale: true,
-        prepared_by: ''
+        prepared_by: '',
+        finished: true,
       )
     end
   end
