@@ -24,7 +24,25 @@ class RawMaterialPurchase < ApplicationRecord
         available: 'No',
         material_type: 'Corte'
       )
-
+    elsif family_id == 21
+      RawMaterial.create!(
+        raw_material_purchase: self,
+        family: family,
+        supplier: supplier,
+        description: description ,
+        born_date: '',
+        born_in: '',
+        raised_in: '',
+        slaughter_date: '',
+        slaughtered_in: '',
+        crotal: '',
+        lot: lot,
+        weight: weight ,
+        temperature: '',
+        classification: '',
+        available: 'Disponible para Despiece',
+        material_type: 'Canal'
+      )
     else
       quantity.times do
         RawMaterial.create!(
