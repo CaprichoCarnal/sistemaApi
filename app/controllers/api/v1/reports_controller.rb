@@ -109,7 +109,7 @@ class Api::V1::ReportsController < ApplicationController
   
   
   def paid_purchases_report_raw_materials
-    paid_purchases_raw_materials = RawMaterialPurchase.where(status: "pagadas")
+    paid_purchases_raw_materials = RawMaterialPurchase.where(status: "Pagado")
   
     response = {
       status: "success",
@@ -123,7 +123,7 @@ class Api::V1::ReportsController < ApplicationController
   end
   
   def unpaid_purchases_report_raw_materials
-    unpaid_purchases_raw_materials = RawMaterialPurchase.where(status: "por pagar")
+    unpaid_purchases_raw_materials = RawMaterialPurchase.where(status: "Pendiente")
   
     response = {
       status: "success",
@@ -138,7 +138,7 @@ class Api::V1::ReportsController < ApplicationController
 
   
   def paid_purchases_report_supplies
-    paid_purchases_supplies = PurchaseSupply.where(status: "pagadas")
+    paid_purchases_supplies = PurchaseSupply.where(status: "Pagado")
   
     response = {
       status: "success",
@@ -153,7 +153,7 @@ class Api::V1::ReportsController < ApplicationController
 
   
   def unpaid_purchases_report_supplies
-    unpaid_purchases_supplies = PurchaseSupply.where(status: "por pagar")
+    unpaid_purchases_supplies = PurchaseSupply.where(status: "Pendiente")
   
     response = {
       status: "success",
