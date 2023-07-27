@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :families
       resources :suppliers
       resources :customers
+      resources :commercial_agents
       resources :roles
       resources :users
       resources :document_types

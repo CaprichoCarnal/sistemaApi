@@ -45,6 +45,6 @@ class Api::V1::CustomersController < ApplicationController
     end
   
     def customer_params
-      params.permit(:fiscal_name, :commercial_name, :address, :postal_code, :city, :province, :country, :document_type, :document, :name, :phone, :mobile, :email, :bank)
+      params.permit(:fiscal_name, :commercial_name, :address, :postal_code, :city, :province, :country, :document_type, :document, :name, :phone, :mobile, :email, :bank,:commercial_agent_id)
     end
 end

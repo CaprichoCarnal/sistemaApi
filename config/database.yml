@@ -27,6 +27,7 @@ default: &default
 development:
   <<: *default
   database: example_development
+  #database: capricho
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
