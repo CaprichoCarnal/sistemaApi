@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_30_155146) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_31_030310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -98,6 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_30_155146) do
     t.datetime "updated_at", null: false
     t.boolean "frozen"
     t.date "expiration_date"
+    t.decimal "weight_used"
     t.index ["cut_id"], name: "index_elaborated_products_on_cut_id"
   end
 
@@ -159,6 +160,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_30_155146) do
     t.string "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "mix_cuts", force: :cascade do |t|
+    t.string "name"
+    t.integer "weight"
+    t.string "lot"
+    t.bigint "cut_id", null: false
+    t.boolean "frozen"
+    t.date "expiration_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cut_id"], name: "index_mix_cuts_on_cut_id"
+  end
+
+  create_table "mixed_cuts", force: :cascade do |t|
+    t.bigint "mix_cut_id", null: false
+    t.bigint "cut_id", null: false
+    t.integer "weight"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cut_id"], name: "index_mixed_cuts_on_cut_id"
+    t.index ["mix_cut_id"], name: "index_mixed_cuts_on_mix_cut_id"
   end
 
   create_table "piecenames", force: :cascade do |t|
@@ -330,6 +353,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_30_155146) do
   add_foreign_key "elaborated_product_materials", "supplies"
   add_foreign_key "elaborated_products", "cuts"
   add_foreign_key "invoices", "sales"
+  add_foreign_key "mix_cuts", "cuts"
+  add_foreign_key "mixed_cuts", "cuts"
+  add_foreign_key "mixed_cuts", "mix_cuts"
   add_foreign_key "piecenames", "families"
   add_foreign_key "purchase_supplies", "suppliers"
   add_foreign_key "raw_material_purchases", "families"

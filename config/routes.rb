@@ -21,6 +21,8 @@ Rails.application.routes.draw do
       resources :purchase_supplies
       resources :vats
       resources :elaborated_products
+      resources :mix_cuts
+      resources :mixed_cuts
       resources :article_names
       resources :elaborated_product_materials
       resources :inventories

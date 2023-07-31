@@ -35,5 +35,12 @@ class ElaboratedProduct < ApplicationRecord
        supply_inventory.save
        supply_inventory.destroy if new_quantity.zero?
     end
+
+     # Restar el peso utilizado del corte y actualizar el inventario del corte
+  cut.update(weight: cut.weight - weight_used)
+  cut_inventory = cut.inventories.find_or_initialize_by(item: cut)
+  cut_inventory.weight = cut.weight
+  cut_inventory.save
+  cut_inventory.destroy if cut.weight.zero?
   end
 end
