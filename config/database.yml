@@ -26,8 +26,9 @@ default: &default
   port: 5432
 development:
   <<: *default
-  database: carnico
-  #database: capricho
+  #database: carnico
+  database: example_development
+
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.

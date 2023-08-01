@@ -4,7 +4,7 @@ class ElaboratedProduct < ApplicationRecord
   has_many :supplies, through: :elaborated_product_materials
   accepts_nested_attributes_for :elaborated_product_materials
 
-  after_save :update_inventory
+  after_create :update_inventory
   has_many :inventories, as: :item
 
   def update_inventory
