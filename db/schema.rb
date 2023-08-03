@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_31_030310) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_03_221506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -297,6 +297,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_030310) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "vat"
+    t.bigint "commercial_agent_id", null: false
+    t.index ["commercial_agent_id"], name: "index_sales_on_commercial_agent_id"
     t.index ["customer_id"], name: "index_sales_on_customer_id"
   end
 
@@ -365,6 +367,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_31_030310) do
   add_foreign_key "raw_materials", "suppliers"
   add_foreign_key "sale_items", "inventories"
   add_foreign_key "sale_items", "sales"
+  add_foreign_key "sales", "commercial_agents"
   add_foreign_key "sales", "customers"
   add_foreign_key "supplies", "suppliers"
   add_foreign_key "users", "roles"
