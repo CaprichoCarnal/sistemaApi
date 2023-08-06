@@ -26,7 +26,7 @@ default: &default
   port: 5432
 development:
   <<: *default
-  #database: carnico
+  #database: capricho
   database: example_development
 
 

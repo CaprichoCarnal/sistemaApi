@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       resources :commercial_agents
       resources :roles
       resources :users
+      resources :returns
+      resources :return_items
       resources :document_types
       resources :locations
       resources :raw_materials

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_03_221506) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_05_185548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -271,6 +271,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_221506) do
     t.index ["supplier_id"], name: "index_raw_materials_on_supplier_id"
   end
 
+  create_table "return_items", force: :cascade do |t|
+    t.bigint "return_id", null: false
+    t.bigint "sale_item_id", null: false
+    t.integer "quantity_returned"
+    t.text "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["return_id"], name: "index_return_items_on_return_id"
+    t.index ["sale_item_id"], name: "index_return_items_on_sale_item_id"
+  end
+
+  create_table "returns", force: :cascade do |t|
+    t.bigint "invoice_id", null: false
+    t.text "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_returns_on_invoice_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -365,6 +384,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_221506) do
   add_foreign_key "raw_materials", "families"
   add_foreign_key "raw_materials", "raw_material_purchases"
   add_foreign_key "raw_materials", "suppliers"
+  add_foreign_key "return_items", "returns"
+  add_foreign_key "return_items", "sale_items"
+  add_foreign_key "returns", "invoices"
   add_foreign_key "sale_items", "inventories"
   add_foreign_key "sale_items", "sales"
   add_foreign_key "sales", "commercial_agents"
