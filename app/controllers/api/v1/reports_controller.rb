@@ -187,6 +187,64 @@ class Api::V1::ReportsController < ApplicationController
   
     render json: response
   end
+
+  def calculate_total_purchase
+    raw_material = RawMaterialPurchase.all
+    total_rawmaterial = raw_material.sum(&:total) 
+  
+    supply = PurchaseSupply.all
+    total_supply = supply.sum(&:total)
+  
+    response = {
+      status: "success",
+      message: "Saldo en Compras",
+      data: {
+        RawMaterial_Purchase: total_rawmaterial, # Add a comma here
+        Purchase_Supplies: total_supply          # Add a comma here
+      }
+    }
+  
+    render json: response
+  end
+  
+  def calculate_total_sales_by_month
+    sales = Sale.all.group_by { |sale| sale.date.beginning_of_month }
+  
+    total_sales_by_month = {}
+  
+    sales.each do |month, month_sales|
+      total_sales = month_sales.sum(&:total)
+      total_sales_by_month[month.strftime('%B %Y')] = total_sales
+    end
+  
+    response = {
+      status: "success",
+      message: "Total Sales per Month",
+      data: {
+        total_sales_by_month: total_sales_by_month
+      }
+    }
+  
+    render json: response
+  end
+  
+
+  def calculate_total_sales
+    sales = Sale.all
+  
+    total_sales = sales.sum(&:total)
+  
+    response = {
+      status: "success",
+      message: "Total Sales",
+      data: {
+        total: total_sales
+      }
+    }
+  
+    render json: response
+  end
+  
   
   def iva_balance_supplies
     supplies = PurchaseSupply.all

@@ -37,7 +37,10 @@ Rails.application.routes.draw do
 
       get '/reports/available_for_cutting', to: 'reports#count_available_for_cutting'
       get '/reports/cutting_finished', to: 'reports#count_cutting_finished'
+      get '/reports/calculate_total_sales', to: 'reports#calculate_total_sales'
+      get '/reports/calculate_total_purchase', to: 'reports#calculate_total_purchase'
       get '/reports/partial_cutting', to: 'reports#count_partial_cutting'
+      get '/reports/calculate_total_sales_by_month', to: 'reports#calculate_total_sales_by_month'
       get '/reports/best_selling_products/weekly', to: 'reports#best_selling_products_weekly'
       get '/reports/best_selling_products/monthly', to: 'reports#best_selling_products_monthly'
       get '/reports/best_selling_products/yearly', to: 'reports#best_selling_products_yearly'
