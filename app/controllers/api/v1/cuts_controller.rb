@@ -11,22 +11,24 @@ class Api::V1::CutsController < ApplicationController
         def show
           render json: @cut
         end
-      
         def create
           cuts = params[:cuts]
-          @cuts = []
-      
+          @created_cuts = []
+        
           cuts.each do |cut_params|
-            cut = Cut.new(cut_params.permit(:name, :lot ,:weight, :matured, :maturity_start_date, :maturity_end_date, :frozen, :available_for_sale, :prepared_by, :raw_material_id,:expiration_date,:finished))
-            @cuts << cut if cut.save
+            cut = Cut.new(cut_params.permit(:name, :lot, :weight, :matured, :maturity_start_date, :maturity_end_date, :frozen, :available_for_sale, :prepared_by, :raw_material_id, :expiration_date, :finished))
+            if cut.save
+              @created_cuts << cut
+            end
           end
-      
-          if @cuts.present?
-            render json: @cuts, status: :created
+        
+          if @created_cuts.present?
+            render json: @created_cuts, status: :created, include: { raw_material: { only: [:name, :crotal, :lot, :slaughter_date, :born_date, :slaughtered_in, :classification, :born_in] } }
           else
             render json: { error: "No se pudieron crear los cortes" }, status: :unprocessable_entity
           end
         end
+        
       
         def update
           if @cut.update(cut_params)
