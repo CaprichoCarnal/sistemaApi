@@ -14,6 +14,7 @@ class Return < ApplicationRecord
       sale_item = return_item.sale_item
       inventory_item = sale_item.inventory
       inventory_item.update(weight: inventory_item.weight + return_item.quantity_returned)
+      sale_item.update(returned: true)
     end
   end
 end
