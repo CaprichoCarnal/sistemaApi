@@ -4,7 +4,7 @@ class Cut < ApplicationRecord
   after_save :update_inventory
   after_update :check_availability
   after_create :change_raw_material_availability
-
+  has_many :mix_cuts
   has_many :inventories, as: :item
 
   def update_inventory

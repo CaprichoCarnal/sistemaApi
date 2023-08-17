@@ -3,12 +3,9 @@ class Api::V1::InvoicesController < ApplicationController
 
    
     def index
-      @invoices = Invoice.includes(sale: [:customer, sale_items: :inventory])
-                         .order(created_at: :desc)
-                         .all
-    
-      render json: @invoices, include: { sale: { include: [:customer, { sale_items: { include: :inventory, where: { returned: false } } }] } }
-    end
+      @invoices = Invoice.includes(sale: [:customer, sale_items: :inventory]).order(created_at: :desc).all
+      render json: @invoices, include: { sale: { include: [:customer, { sale_items: { include: :inventory } }] } }
+    end 
     
     
   
