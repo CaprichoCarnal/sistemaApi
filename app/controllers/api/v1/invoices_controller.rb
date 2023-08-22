@@ -3,9 +3,13 @@ class Api::V1::InvoicesController < ApplicationController
 
    
     def index
-      @invoices = Invoice.includes(sale: [:customer, sale_items: :inventory]).order(created_at: :desc).all
+      @invoices = Invoice.joins(sale: [:customer, sale_items: :inventory])
+                         .where('sale_items.returned = ?', false)
+                         .order(created_at: :desc)
+                         .includes(sale: [:customer, sale_items: :inventory])
+    
       render json: @invoices, include: { sale: { include: [:customer, { sale_items: { include: :inventory } }] } }
-    end 
+    end
     
     
   
