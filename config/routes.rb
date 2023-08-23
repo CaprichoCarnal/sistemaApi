@@ -56,7 +56,7 @@ Rails.application.routes.draw do
       get 'trazabilidad_hacia_adelante', to: 'traceabilities#trazabilidad_hacia_adelante'
       get 'trazabilidad_hacia_atras', to: 'traceabilities#trazabilidad_hacia_atras'
       get 'trazabilidad_interna', to: 'traceabilities#trazabilidad_interna'
-
+      get 'all', to: 'traceabilities#all_trazabilities'
     end
   end
 

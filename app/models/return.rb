@@ -15,7 +15,7 @@ class Return < ApplicationRecord
       inventory_item = sale_item.inventory
       inventory_item.update(weight: inventory_item.weight + return_item.quantity_returned)
       sale_item.update(returned: true)
-
+       
       # Sumamos el precio del SaleItem al total de reembolso
       total_refund += sale_item.price * return_item.quantity_returned
     end
