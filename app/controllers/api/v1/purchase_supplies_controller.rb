@@ -2,9 +2,46 @@ class Api::V1::PurchaseSuppliesController < ApplicationController
     before_action :set_purchase_supply, only: [:show, :update, :destroy]
 
     def index
-      @purchase_supplies = PurchaseSupply.includes(:supplier).order(created_at: :desc).all
-      render json: @purchase_supplies.to_json(include: { supplier: { only: :commercial_name } })
+      # Agrupar las compras de suministros por factura
+      purchase_supplies_grouped = PurchaseSupply.includes(:supplier)
+                                                .order(created_at: :desc)
+                                                .group_by(&:invoice_code)
+      
+      # Crear una estructura para almacenar los resultados
+      result = []
+      
+      # Recorrer cada grupo de compras por factura
+      purchase_supplies_grouped.each do |invoice_code, supplies|
+        # Obtener el estado (status) de la primera compra en el grupo
+        status = supplies.first.status
+        
+        # Crear una estructura para almacenar la información de cada compra
+        supplies_info = supplies.map do |supply|
+          {
+            description: supply.description,
+            quantity: supply.quantity,
+            price: supply.price,
+            discount: supply.discount,
+            total: supply.total,
+            vat: supply.vat,
+            supplier: {
+              commercial_name: supply.supplier.commercial_name
+            }
+          }
+        end
+        
+        # Agregar la información de la factura al resultado
+        result << {
+          invoice_code: invoice_code,
+          status: status,
+          supplies: supplies_info
+        }
+      end
+      
+      # Renderizar como respuesta JSON
+      render json: result.to_json
     end
+    
 
     def show
       render json: @purchase_supply

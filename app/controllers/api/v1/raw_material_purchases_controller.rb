@@ -2,9 +2,54 @@ class Api::V1::RawMaterialPurchasesController < ApplicationController
   before_action :set_raw_material_purchase, only: [:show, :update, :destroy]
 
   def index
-    @raw_material_purchases = RawMaterialPurchase.includes(:supplier, :family).order(created_at: :desc).all
-    render json: @raw_material_purchases.to_json(include: { supplier: { only: :fiscal_name }, family: { only: [:name, :code] } })
+    # Agrupar las compras de materia prima por factura
+    raw_material_purchases_grouped = RawMaterialPurchase.includes(:supplier, :family)
+                                                       .order(created_at: :desc)
+                                                       .group_by(&:invoice_code)
+    
+    # Crear una estructura para almacenar los resultados
+    result = []
+    
+    # Recorrer cada grupo de compras por factura
+    raw_material_purchases_grouped.each do |invoice_code, purchases|
+      # Obtener el estado (status) de la primera compra en el grupo
+      status = purchases.first.status
+      
+      # Crear una estructura para almacenar la información de cada compra
+      purchases_info = purchases.map do |purchase|
+        {
+        
+          family: {
+            name: purchase.family.name,
+            code: purchase.family.code
+          },
+          description: purchase.description,
+          lot: purchase.lot,
+          quantity: purchase.quantity,
+          price: purchase.price,
+          discount: purchase.discount,
+          total: purchase.total,
+          vat: purchase.vat,
+          weight: purchase.weight,
+          cut: purchase.cut,
+          supplier: {
+            fiscal_name: purchase.supplier.fiscal_name
+          }
+        }
+      end
+      
+      # Agregar la información de la factura al resultado
+      result << {
+        invoice_code: invoice_code,
+        status: status,
+        purchases: purchases_info
+      }
+    end
+    
+    # Renderizar como respuesta JSON
+    render json: result.to_json
   end
+  
 
   def show
     render json: @raw_material_purchase
