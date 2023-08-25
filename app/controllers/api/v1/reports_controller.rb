@@ -284,6 +284,73 @@ class Api::V1::ReportsController < ApplicationController
     render json: response
   end
   
+  def generate_report
+    pending_count = Invoice.where(status: "Pendiente").count
+    paid_count = Invoice.where(status: "Cobrada").count
+    canceled_count = Invoice.where(status: "Cancelada").count
+    refunded_count = Invoice.where(status: "Cobrada con devolución").count
+  
+    sales = Sale.all
+    total_sales = sales.sum(&:total)
+  
+    raw_material = RawMaterialPurchase.all
+    total_rawmaterial = raw_material.sum(&:total)
+  
+    supply = PurchaseSupply.all
+    total_supply = supply.sum(&:total)
+  
+    paid_raw_materials = RawMaterialPurchase.where(status: "Pagado").count
+    partial_paid_raw_materials = RawMaterialPurchase.where(status: "Pago parcial").count
+    unpaid_raw_materials = RawMaterialPurchase.where(status: "Pendiente por pagar").count
+  
+    paid_supplies = PurchaseSupply.where(status: "Pagado").count
+    partial_paid_supplies = PurchaseSupply.where(status: "Pago parcial").count
+    unpaid_supplies = PurchaseSupply.where(status: "Pendiente por pagar").count
+  
+    response = {
+      status: "success",
+      message: "Reporte Completo",
+      data: {
+        invoices_status: {
+          pendiente: pending_count,
+          cobrada: paid_count,
+          cancelada: canceled_count,
+          cobrada_con_devolucion: refunded_count
+        },
+        total_sales: {
+          status: "success",
+          message: "Total de Ventas",
+          data: {
+            total: total_sales
+          }
+        },
+        total_purchase: {
+          status: "success",
+          message: "Saldo en Compras",
+          data: {
+            RawMaterial_Purchase: total_rawmaterial,
+            Purchase_Supplies: total_supply
+          }
+        },
+        purchase_reports: {
+          raw_materials: {
+            paid: paid_raw_materials,
+            partial_paid: partial_paid_raw_materials,
+            unpaid: unpaid_raw_materials
+          },
+          supplies: {
+            paid: paid_supplies,
+            partial_paid: partial_paid_supplies,
+            unpaid: unpaid_supplies
+          }
+        }
+      }
+    }
+  
+    render json: response
+  end
+  
+  
   
   
   

@@ -57,6 +57,9 @@ Rails.application.routes.draw do
       get 'trazabilidad_hacia_atras', to: 'traceabilities#trazabilidad_hacia_atras'
       get 'trazabilidad_interna', to: 'traceabilities#trazabilidad_interna'
       get 'all', to: 'traceabilities#all_trazabilities'
+
+
+      get '/generate_report', to: 'reports#generate_report'
     end
   end
 
@@ -65,6 +68,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users
       post "/auth/login", to: "authentication#login"
+      
+
     end
   end
 
