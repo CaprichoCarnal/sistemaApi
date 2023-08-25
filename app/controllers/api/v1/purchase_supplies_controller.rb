@@ -26,17 +26,22 @@ class Api::V1::PurchaseSuppliesController < ApplicationController
             vat: supply.vat,
             payment: supply.payment,
             supplier: {
-              commercial_name: supply.supplier.commercial_name
+              fiscal_name: supply.supplier.fiscal_name
             }
           }
         end
         
         # Agregar la información de la factura al resultado
         result << {
-          invoice_code: invoice_code,
-          status: status,
-          supplies: supplies_info
-        }
+        invoice_code: invoice_code,
+        supplier: supplies.first.supplier.fiscal_name,  
+        date_of_purchase: supplies.first.date_of_purchase,
+        total: supplies.first.total,
+        vat: supplies.first.vat,  
+        payment: supplies.first.payment,  
+        status: status,
+        purchases: supplies_info
+      }
       end
       
       # Renderizar como respuesta JSON
