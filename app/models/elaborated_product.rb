@@ -1,4 +1,5 @@
 class ElaboratedProduct < ApplicationRecord
+  #attr_accessor :article_data # Agrega un atributo virtual
   belongs_to :cut
   has_many :elaborated_product_materials
   has_many :supplies, through: :elaborated_product_materials
