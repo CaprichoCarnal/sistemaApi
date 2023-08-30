@@ -60,6 +60,10 @@ Rails.application.routes.draw do
 
 
       get '/generate_report', to: 'reports#generate_report'
+      get '/sales_report', to: 'reports#sales_report'
+      get '/purchases_report', to: 'reports#purchases_report'
+      get '/pending_invoices_report', to: 'reports#pending_invoices_report'
+      get '/pending_purchases_report', to: 'reports#pending_purchases_report'
     end
   end
 

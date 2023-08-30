@@ -12,6 +12,126 @@ class Api::V1::ReportsController < ApplicationController
   
     render json: response
   end
+
+  def sales_report
+    @sales_data = Sale.joins(:customer).select(
+      'customers.fiscal_name AS customer_fiscal_name',
+      'customers.commercial_name AS customer_commercial_name',
+      'sales.total AS sales_total',
+      'sales.vat AS sales_vat',
+      'sales.id'
+    )
+
+    respond_to do |format|
+      format.json { render json: @sales_data }
+    end
+  end
+
+  def purchases_report
+    @purchase_data_supplies = PurchaseSupply.joins(:supplier)
+                                            .select(
+                                              "'supplies' AS purchase_type",
+                                              'suppliers.id AS supplier_id',
+                                              'suppliers.fiscal_name AS supplier_fiscal_name',
+                                              'suppliers.commercial_name AS supplier_commercial_name',
+                                              'purchase_supplies.id AS purchase_id',
+                                              'purchase_supplies.invoice_code AS invoice_code',
+                                              'SUM(purchase_supplies.total) AS total_purchase',
+                                              'purchase_supplies.vat AS purchase_vat',
+                                              'purchase_supplies.status AS purchase_status',
+                                              'purchase_supplies.payment AS purchase_payment'
+                                            )
+                                            .group(
+                                              'suppliers.id',
+                                              'suppliers.fiscal_name',
+                                              'suppliers.commercial_name',
+                                              'purchase_supplies.id',
+                                              'purchase_supplies.invoice_code',
+                                              'purchase_supplies.vat',
+                                              'purchase_supplies.status',
+                                              'purchase_supplies.payment'
+                                            )
+
+    @purchase_data_raw_material = RawMaterialPurchase.joins(:supplier)
+                                                     .select(
+                                                       "'raw_material' AS purchase_type",
+                                                       'suppliers.id AS supplier_id',
+                                                       'suppliers.fiscal_name AS supplier_fiscal_name',
+                                                       'suppliers.commercial_name AS supplier_commercial_name',
+                                                       'raw_material_purchases.id AS purchase_id',
+                                                       'raw_material_purchases.invoice_code AS invoice_code',
+                                                       'SUM(raw_material_purchases.total) AS total_purchase',
+                                                       'raw_material_purchases.vat AS purchase_vat',
+                                                       'raw_material_purchases.status AS purchase_status',
+                                                       'raw_material_purchases.payment AS purchase_payment'
+                                                     )
+                                                     .group(
+                                                       'suppliers.id',
+                                                       'suppliers.fiscal_name',
+                                                       'suppliers.commercial_name',
+                                                       'raw_material_purchases.id',
+                                                       'raw_material_purchases.invoice_code',
+                                                       'raw_material_purchases.vat',
+                                                       'raw_material_purchases.status',
+                                                       'raw_material_purchases.payment'
+                                                     )
+
+    @purchase_data = @purchase_data_supplies + @purchase_data_raw_material
+
+    respond_to do |format|
+      format.json { render json: @purchase_data }
+    end
+  end
+
+  def pending_invoices_report
+    @pending_invoices = Invoice.joins(:sale)
+                               .where(status: 'Pendiente')
+                               .select(
+                                 'sales.id AS sale_id',
+                                 'sales.customer_id AS customer_id',
+                                 'invoices.number AS invoice_number',
+                                 'invoices.date AS invoice_date',
+                                 'invoices.total AS invoice_total'
+                               )
+
+    respond_to do |format|
+      format.json { render json: @pending_invoices }
+    end
+  end
+
+  def pending_purchases_report
+    @pending_purchases = PurchaseSupply.joins(:supplier)
+                                       .where(status: ['Pendiente', 'Pendiente por pagar'])
+                                       .select(
+                                         "'supplies' AS purchase_type",
+                                         'suppliers.id AS supplier_id',
+                                         'suppliers.fiscal_name AS supplier_fiscal_name',
+                                         'suppliers.commercial_name AS supplier_commercial_name',
+                                         'purchase_supplies.id AS purchase_id',
+                                         'purchase_supplies.invoice_code AS invoice_code',
+                                         'purchase_supplies.date_of_purchase AS purchase_date',
+                                         'purchase_supplies.total AS purchase_total'
+                                       )
+
+    @pending_purchases_raw_material = RawMaterialPurchase.joins(:supplier)
+                                                        .where(status: ['Pendiente', 'Pendiente por pagar'])
+                                                        .select(
+                                                          "'raw_material' AS purchase_type",
+                                                          'suppliers.id AS supplier_id',
+                                                          'suppliers.fiscal_name AS supplier_fiscal_name',
+                                                          'suppliers.commercial_name AS supplier_commercial_name',
+                                                          'raw_material_purchases.id AS purchase_id',
+                                                          'raw_material_purchases.invoice_code AS invoice_code',
+                                                          'raw_material_purchases.date_of_purchase AS purchase_date',
+                                                          'raw_material_purchases.total AS purchase_total'
+                                                        )
+
+    @pending_purchases = @pending_purchases + @pending_purchases_raw_material
+
+    respond_to do |format|
+      format.json { render json: @pending_purchases }
+    end
+  end
   
   def count_cutting_finished
     count = RawMaterial.where(available: "Despiece Finalizado").count
