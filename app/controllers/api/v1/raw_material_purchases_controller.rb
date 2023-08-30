@@ -41,8 +41,11 @@ class Api::V1::RawMaterialPurchasesController < ApplicationController
       
       # Agregar la información de la factura al resultado
       result << {
+          id: purchases.first.id,
           invoice_code: invoice_code,
+          supplier_id: purchases.first.supplier.id,
           supplier: purchases.first.supplier.fiscal_name,
+          family_id: purchases.first.family.id,
           family: purchases.first.family.name,
           familyCode: purchases.first.family.code,
           date_of_purchase: purchases.first.date_of_purchase,

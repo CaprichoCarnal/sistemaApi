@@ -33,8 +33,10 @@ class Api::V1::PurchaseSuppliesController < ApplicationController
         
         # Agregar la información de la factura al resultado
         result << {
+        id: supplies.first.id,  
         invoice_code: invoice_code,
-        supplier: supplies.first.supplier.fiscal_name,  
+        supplier: supplies.first.supplier.fiscal_name,
+        supplier_id: supplies.first.supplier.id,  
         date_of_purchase: supplies.first.date_of_purchase,
         total: supplies.first.total,
         vat: supplies.first.vat,  
