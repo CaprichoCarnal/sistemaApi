@@ -12,14 +12,25 @@ class Api::V1::InventoriesController < ApplicationController
   end
 
   def create
-    @inventory = Inventory.new(inventory_params)
+    inventories_data = params[:inventories]  # Recibe una matriz de inventarios
+    
+    @inventories = []
 
-    if @inventory.save
-      render json: @inventory, status: :created
+    inventories_data.each do |inventory_data|
+      inventory = Inventory.new(inventory_data.permit(:item_id, :item_type, :category, :lot, :weight, :expiration_date, :name))
+
+      if inventory.save
+        @inventories << inventory
+      end
+    end
+
+    if @inventories.present?
+      render json: @inventories, status: :created
     else
-      render json: @inventory.errors, status: :unprocessable_entity
+      render json: { error: "No se pudieron crear los inventarios" }, status: :unprocessable_entity
     end
   end
+  
 
   def update
     if @inventory.update(inventory_params)
@@ -41,6 +52,10 @@ class Api::V1::InventoriesController < ApplicationController
   end
 
   def inventory_params
-    params.require(:inventory).permit(:item_id, :item_type, :category, :lot, :weight, :expiration_date)
+    params.require(:inventory).permit(:item_id, :item_type, :category, :lot, :weight, :expiration_date, :name).tap do |whitelisted|
+      whitelisted[:item_type] = nil if whitelisted[:item_type].blank?
+    end
   end
+  
+  
 end
