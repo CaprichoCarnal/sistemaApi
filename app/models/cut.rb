@@ -11,6 +11,7 @@ class Cut < ApplicationRecord
     inventory = Inventory.find_or_initialize_by(item: self)
     inventory.weight = weight
     inventory.lot = lot
+    inventory.name = name
 
     if matured && frozen
       inventory.category = "Cortes Madurados y Congelados"

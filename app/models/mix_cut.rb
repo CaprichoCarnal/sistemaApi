@@ -11,6 +11,7 @@ class MixCut < ApplicationRecord
     inventory.category = "Productos Elaborados"  # Categoría para los productos elaborados
     inventory.weight = self.weight
     inventory.lot = self.lot
+    inventory.name = self.name
     inventory.save
 
     # Actualizar la cantidad utilizada de los suministros
