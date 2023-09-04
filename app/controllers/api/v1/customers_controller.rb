@@ -3,9 +3,10 @@ class Api::V1::CustomersController < ApplicationController
 
     # GET /api/v1/customers
     def index
-      @customers = Customer.all
-      render json: @customers
+      @customers = Customer.includes(:commercial_agent).all
+      render json: @customers, include: :commercial_agent
     end
+    
   
     # GET /api/v1/customers/:id
     def show

@@ -2,10 +2,10 @@ class Api::V1::SalesController < ApplicationController
     before_action :set_sale, only: [:show, :update, :destroy]
 
     def index
-      @sales = Sale.includes(:customer, sale_items: { inventory: [:item] }).order(created_at: :desc).all
-      render json: @sales, include: { customer: {}, sale_items: { include: { inventory: { include: :item } } } }
+      @sales = Sale.includes(customer: [:commercial_agent], sale_items: { inventory: [:item] }).order(created_at: :desc).all
+      render json: @sales, include: { customer: { include: :commercial_agent }, sale_items: { include: { inventory: { include: :item } } }, commercial_agent: {} }
     end
-
+    
   def show
     render json: @sale
   end

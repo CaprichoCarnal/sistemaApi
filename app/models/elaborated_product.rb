@@ -9,11 +9,14 @@ class ElaboratedProduct < ApplicationRecord
   has_many :inventories, as: :item
 
   def update_inventory
+    fecha_actual = Date.today
+    dias_a_sumar = 90
     inventory = Inventory.find_or_initialize_by(item: self)
     inventory.category = "Productos Elaborados"  # Categoría para los productos elaborados
     inventory.weight = self.weight
     inventory.lot = self.lot
     inventory.name = self.name
+    inventory.expiration_date = fecha_actual + dias_a_sumar.days
     inventory.save
 
     # Actualizar la cantidad utilizada de los suministros

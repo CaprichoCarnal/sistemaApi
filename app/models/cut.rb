@@ -12,7 +12,9 @@ class Cut < ApplicationRecord
     inventory.weight = weight
     inventory.lot = lot
     inventory.name = name
-
+     # Definir la fecha actual
+     fecha_actual = Date.today
+     dias_a_sumar = 180 
     if matured && frozen
       inventory.category = "Cortes Madurados y Congelados"
     elsif matured
@@ -22,7 +24,7 @@ class Cut < ApplicationRecord
     else
       inventory.category = "Cortes"
     end
-
+    inventory.expiration_date = fecha_actual + dias_a_sumar.days
     inventory.save
   end
 
