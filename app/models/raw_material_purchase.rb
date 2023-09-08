@@ -2,6 +2,27 @@ class RawMaterialPurchase < ApplicationRecord
   belongs_to :supplier
   belongs_to :family, optional: true
   after_create :create_raw_materials
+  after_update :update_related_invoices
+
+  def update_related_invoices
+    related_invoices = RawMaterialPurchase.where(invoice_code: invoice_code)
+                                        .where.not(id: id)
+
+    related_invoices.update_all(
+      date_of_purchase: date_of_purchase,
+      supplier_id: supplier_id,
+      item: item,
+      family_id: family_id,
+      description: description,
+      lot: lot,
+      quantity: quantity,
+      price: price,
+      discount: discount,
+      total: total,
+      vat: vat,
+      status: status
+    )
+  end
 
 
   def create_raw_materials
