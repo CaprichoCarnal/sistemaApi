@@ -2,7 +2,7 @@ class Api::V1::InventoriesController < ApplicationController
   before_action :set_inventory, only: [:show, :update, :destroy]
 
   def index
-    @inventories = Inventory.includes(:item).order(created_at: :desc).all
+    @inventories = Inventory.includes(:item).where('weight > ?',0).order(created_at: :desc).all
     render json: @inventories, include: [:item]
   end
 
