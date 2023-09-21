@@ -13,13 +13,18 @@ class Return < ApplicationRecord
       sale_item = return_item.sale_item
       inventory_item = sale_item.inventory
   
-      # Actualizamos el peso del SaleItem y nos aseguramos de que sea siempre positivo
+      # Actualizamos el peso del SaleItem
       new_weight_sale_item = (sale_item.weight - return_item.quantity_returned).abs
       sale_item.update(weight: new_weight_sale_item)
-  
-      # Actualizamos el peso del InventoryItem y nos aseguramos de que sea siempre positivo
-      new_weight_inventory_item = (inventory_item.weight + return_item.quantity_returned).abs
+
+      
+      # Actualizamos el peso del InventoryItem
+      new_weight_inventory_item = inventory_item.weight.to_d + return_item.quantity_returned.to_d
       inventory_item.update(weight: new_weight_inventory_item)
+
+     
+      
+      
   
       sale_item.update(returned: true)
   
@@ -27,12 +32,14 @@ class Return < ApplicationRecord
       total_refund += sale_item.price * return_item.quantity_returned
     end
   
-    # Restamos el total de reembolso del total del Sale
+    # Actualizamos el total de la venta restando el total de reembolso
     sale = invoice.sale
-    sale.update(total: (sale.total - total_refund).abs)
+    new_sale_total = (sale.total - total_refund).abs
+    sale.update(total: new_sale_total)
   
-    # Actualizamos el total de la Invoice restando el total de reembolso
-    invoice.update(total: (invoice.total - total_refund).abs)
+    # Actualizamos el total de la factura restando el total de reembolso
+    new_invoice_total = (invoice.total - total_refund).abs
+    invoice.update(total: new_invoice_total)
   end
   
 end
