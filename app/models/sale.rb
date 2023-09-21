@@ -4,7 +4,8 @@ class Sale < ApplicationRecord
   belongs_to :commercial_agent, class_name: 'CommercialAgent', foreign_key: 'commercial_agent_id'
   has_many :inventories, through: :sale_items
   accepts_nested_attributes_for :sale_items
-  after_save :update_inventory,  :create_invoice
+  after_save :update_inventory
+  after_create :create_invoice
   
   private
 

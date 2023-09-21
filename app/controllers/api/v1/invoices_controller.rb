@@ -3,13 +3,15 @@ class Api::V1::InvoicesController < ApplicationController
 
    
     def index
-      @invoices = Invoice.joins(sale: [:customer, sale_items: :inventory])
-                         .where('sale_items.returned = ?', false)
-                         .order(created_at: :desc)
-                         .includes(sale: [:customer, sale_items: :inventory])
+      @latest_invoice = Invoice.joins(sale: [:customer, sale_items: :inventory])
+                                .where('(sale_items.returned = ? AND sale_items.weight > ?) OR sale_items.returned = ?', true, 0, false)
+                                .order(created_at: :desc)
+                                .includes(sale: [:customer, sale_items: :inventory])
+                                .first
     
-      render json: @invoices, include: { sale: { include: [:customer, { sale_items: { include: :inventory } }] } }
+      render json: @latest_invoice, include: { sale: { include: [:customer, { sale_items: { include: :inventory } }] } }
     end
+    
     
     
   
