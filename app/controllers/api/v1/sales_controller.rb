@@ -39,6 +39,6 @@ class Api::V1::SalesController < ApplicationController
   end
 
   def sale_params
-    params.require(:sale).permit(:customer_id, :date, :vat,:total, :commercial_agent_id ,sale_items_attributes: [:inventory_id, :quantity, :price,:product_sold,:weight])
+    params.require(:sale).permit(:customer_id, :date, :vat,:total, :commercial_agent_id , :status,sale_items_attributes: [:inventory_id, :quantity, :price,:product_sold,:weight])
   end
 end

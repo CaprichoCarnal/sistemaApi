@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_01_164020) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_02_205735) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -139,8 +139,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_164020) do
   end
 
   create_table "inventories", force: :cascade do |t|
-    t.string "item_type", null: false
-    t.bigint "item_id", null: false
+    t.string "item_type"
+    t.bigint "item_id"
     t.string "category"
     t.string "lot"
     t.float "weight"
@@ -329,6 +329,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_01_164020) do
     t.datetime "updated_at", null: false
     t.decimal "vat"
     t.bigint "commercial_agent_id", null: false
+    t.string "status", default: "Pendiente"
     t.index ["commercial_agent_id"], name: "index_sales_on_commercial_agent_id"
     t.index ["customer_id"], name: "index_sales_on_customer_id"
   end

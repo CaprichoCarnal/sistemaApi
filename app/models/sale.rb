@@ -1,11 +1,14 @@
 class Sale < ApplicationRecord
   belongs_to :customer
   has_many :sale_items
+  has_one :invoice
   belongs_to :commercial_agent, class_name: 'CommercialAgent', foreign_key: 'commercial_agent_id'
   has_many :inventories, through: :sale_items
   accepts_nested_attributes_for :sale_items
   after_create :update_inventory
   after_create :create_invoice
+  after_update :update_invoice_status
+
   
   private
 
@@ -29,8 +32,12 @@ class Sale < ApplicationRecord
 
   
   def create_invoice
-    invoice = Invoice.create(sale: self, number: generate_invoice_number, date: self.date, total: self.total)
+    invoice = Invoice.create(sale: self, number: generate_invoice_number, date: self.date, total: self.total, status: self.status)
     # Aquí puedes agregar cualquier otra lógica relacionada con la creación de la factura
+  end
+
+  def update_invoice_status
+    self.invoice.update(status: self.status) if self.invoice.present?
   end
 
   def generate_invoice_number
@@ -38,4 +45,6 @@ class Sale < ApplicationRecord
     # Puedes adaptarla según tus requerimientos específicos
     "INV-#{self.id}"
   end
+
+  
 end
