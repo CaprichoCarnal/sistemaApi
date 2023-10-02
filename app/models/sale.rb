@@ -4,18 +4,25 @@ class Sale < ApplicationRecord
   belongs_to :commercial_agent, class_name: 'CommercialAgent', foreign_key: 'commercial_agent_id'
   has_many :inventories, through: :sale_items
   accepts_nested_attributes_for :sale_items
-  after_save :update_inventory
+  after_create :update_inventory
   after_create :create_invoice
   
   private
 
   def update_inventory
     sale_items.each do |sale_item|
-      if new_record?
+        
         inventory = sale_item.inventory
         inventory.weight -= sale_item.weight
         inventory.save
-      end
+
+        cut = Cut.find_by(name: inventory.name, lot: inventory.lot)
+
+        if cut.present?
+          cut.weight = inventory.weight
+          cut.save
+        end
+      
       
     end
   end

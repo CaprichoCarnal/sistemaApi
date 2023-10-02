@@ -12,6 +12,11 @@ class Return < ApplicationRecord
     return_items.each do |return_item|
       sale_item = return_item.sale_item
       inventory_item = sale_item.inventory
+
+      # Obtener el Cut asociado al nombre y lote
+      cut = Cut.find_by(name: inventory_item.name, lot: inventory_item.lot)
+
+      
   
       # Actualizamos el peso del SaleItem
       new_weight_sale_item = (sale_item.weight - return_item.quantity_returned).abs
@@ -21,6 +26,12 @@ class Return < ApplicationRecord
       # Actualizamos el peso del InventoryItem
       new_weight_inventory_item = inventory_item.weight.to_d + return_item.quantity_returned.to_d
       inventory_item.update(weight: new_weight_inventory_item)
+
+      if cut.present?
+        # Restar el peso del Cut
+        new_weight_cut = cut.weight - return_item.quantity_returned
+        cut.update(weight: new_weight_inventory_item)
+      end
 
      
     
