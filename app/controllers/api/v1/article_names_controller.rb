@@ -3,8 +3,8 @@ class Api::V1::ArticleNamesController < ApplicationController
 
   # GET /article_names
   def index
-    @article_names = ArticleName.all
-    render json: @article_names
+    @article_names = ArticleName.includes(:family).order(created_at: :desc).all
+    render json: @article_names.to_json(include: { family: { only: [:name, :code] } })
   end
 
   # GET /article_names/1

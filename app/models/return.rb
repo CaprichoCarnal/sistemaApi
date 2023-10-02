@@ -23,7 +23,7 @@ class Return < ApplicationRecord
       inventory_item.update(weight: new_weight_inventory_item)
 
      
-      
+    
       
   
       sale_item.update(returned: true)

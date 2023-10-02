@@ -3,7 +3,7 @@ class Api::V1::ReturnsController < ApplicationController
 
     # GET /returns
     def index
-      @returns = Return.includes(:invoice, return_items: :sale_item).all
+      @returns = Return.includes(:invoice, return_items: :sale_item).order(created_at: :desc).all
       render json: @returns.to_json(include: { invoice: {}, return_items: { include: :sale_item } })
     end
   

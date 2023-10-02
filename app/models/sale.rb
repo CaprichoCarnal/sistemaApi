@@ -11,7 +11,7 @@ class Sale < ApplicationRecord
 
   def update_inventory
     sale_items.each do |sale_item|
-      if sale_item.returned != true
+      if new_record?
         inventory = sale_item.inventory
         inventory.weight -= sale_item.weight
         inventory.save
