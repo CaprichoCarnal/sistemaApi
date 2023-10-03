@@ -32,7 +32,7 @@ class Sale < ApplicationRecord
 
   
   def create_invoice
-    invoice = Invoice.create(sale: self, number: generate_invoice_number, date: self.date, total: self.total, status: self.status)
+    invoice = Invoice.create(sale: self, number: generate_albaran_number, date: self.date, total: self.total, albaran_number: generate_albaran_number ,status: self.status,invoiced: false)
     # Aquí puedes agregar cualquier otra lógica relacionada con la creación de la factura
   end
 
@@ -40,10 +40,10 @@ class Sale < ApplicationRecord
     self.invoice.update(status: self.status) if self.invoice.present?
   end
 
-  def generate_invoice_number
-    # Lógica para generar el número de factura
-    # Puedes adaptarla según tus requerimientos específicos
-    "INV-#{self.id}"
+
+  def generate_albaran_number
+    last_albaran = Invoice.maximum(:albaran_number)&.split('-')&.last.to_i || 98
+    "ALB-#{last_albaran + 1}"
   end
 
   

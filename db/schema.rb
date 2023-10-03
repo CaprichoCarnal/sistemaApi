@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_02_205735) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_03_170351) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -159,6 +159,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_02_205735) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status"
+    t.string "albaran_number"
+    t.boolean "invoiced"
     t.index ["sale_id"], name: "index_invoices_on_sale_id"
   end
 
