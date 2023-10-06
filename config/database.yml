@@ -22,13 +22,13 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: postgres
   password: 'root'
-  #host: localhost
-  host: 64.226.121.101
+  host: localhost
+  #host: 64.226.121.101
   port: 5432
 development:
   <<: *default
-  database: pruebas
-  #database: example_development
+  #database: pruebas
+  database: example_development
 
 
   # The specified database role being used to connect to postgres.
