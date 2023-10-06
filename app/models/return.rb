@@ -51,6 +51,9 @@ class Return < ApplicationRecord
     # Actualizamos el total de la factura restando el total de reembolso
     new_invoice_total = (invoice.total - total_refund).abs
     invoice.update(total: new_invoice_total)
+
+    # Cambiamos el estado de la factura a "Devolución"
+    invoice.update(status: "Devolución")
   end
   
 end
