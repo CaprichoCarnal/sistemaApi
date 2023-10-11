@@ -42,8 +42,8 @@ class Sale < ApplicationRecord
 
 
   def generate_albaran_number
-    last_albaran = Invoice.maximum(:albaran_number)&.split('-')&.last.to_i || 98
-    "ALB-#{last_albaran + 1}"
+    last_albaran = Invoice.maximum(:albaran_number)&.split('-')&.last.to_i || 58
+    "ALB-%06d" % (last_albaran + 1)
   end
 
   
