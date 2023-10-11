@@ -7,6 +7,7 @@ class Api::V1::InvoicesController < ApplicationController
                          .where('(sale_items.returned = ? AND sale_items.weight > ?) OR sale_items.returned = ?', true, 0, false)
                          .order(created_at: :desc)
                          .includes(sale: [:customer, sale_items: :inventory])
+                         .select("invoices.*, SPLIT_PART(invoices.number, '-', 2) as number, SPLIT_PART(invoices.albaran_number, '-', 2) as albaran_number")
     
       render json: @invoices, include: { sale: { include: [:customer, { sale_items: { include: :inventory } }] } }
     end
