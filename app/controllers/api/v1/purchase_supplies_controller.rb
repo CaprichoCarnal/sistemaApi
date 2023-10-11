@@ -19,7 +19,7 @@ class Api::V1::PurchaseSuppliesController < ApplicationController
         supplies_info = supplies.map do |supply|
           {
             description: supply.description,
-            name: supply.item,
+            item: supply.item,
             quantity: supply.quantity,
             price: supply.price,
             discount: supply.discount,
