@@ -27,7 +27,7 @@ class PurchaseSupply < ApplicationRecord
     Supply.create!(
       supplier: self.supplier,
       lot: self.lot,
-      name: self.description,
+      name: self.item,
       quantity: self.quantity,
       weight: self.weight,
       available_for_sale: true
