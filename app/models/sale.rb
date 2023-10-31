@@ -14,22 +14,19 @@ class Sale < ApplicationRecord
 
   def update_inventory
     sale_items.each do |sale_item|
-        
-        inventory = sale_item.inventory
-        inventory.weight -= sale_item.weight
-        inventory.save
-
-        cut = Cut.find_by(name: inventory.name, lot: inventory.lot)
-
-        if cut.present?
-          cut.weight = inventory.weight
-          cut.save
-        end
-      
-      
+      inventory = sale_item.inventory
+      inventory.weight -= sale_item.weight
+      inventory.weight = sprintf('%.2f', inventory.weight)  # Formatear el peso antes de guardarlo
+      inventory.save
+  
+      cut = Cut.find_by(name: inventory.name, lot: inventory.lot)
+  
+      if cut.present?
+        cut.weight = inventory.weight
+        cut.save
+      end
     end
   end
-
   
   def create_invoice
     invoice = Invoice.create(sale: self, number: generate_albaran_number, date: self.date, total: self.total, albaran_number: generate_albaran_number ,status: self.status,invoiced: false)

@@ -24,14 +24,13 @@ class RawMaterialPurchase < ApplicationRecord
     )
   end
 
-
   def create_raw_materials
     if cut
       RawMaterial.create!(
         raw_material_purchase: self,
         family: family,
         supplier: supplier,
-        description: description ,
+        description: description,
         born_date: '',
         born_in: '',
         raised_in: '',
@@ -39,7 +38,7 @@ class RawMaterialPurchase < ApplicationRecord
         slaughtered_in: '',
         crotal: '',
         lot: lot,
-        weight: weight ,
+        weight: sprintf('%.2f', weight), # Formatear el peso antes de guardarlo
         temperature: '',
         classification: '',
         available: 'No',
@@ -50,7 +49,7 @@ class RawMaterialPurchase < ApplicationRecord
         raw_material_purchase: self,
         family: family,
         supplier: supplier,
-        description: description ,
+        description: description,
         born_date: '',
         born_in: '',
         raised_in: '',
@@ -58,7 +57,7 @@ class RawMaterialPurchase < ApplicationRecord
         slaughtered_in: '',
         crotal: '',
         lot: lot,
-        weight: weight ,
+        weight: sprintf('%.2f', weight), # Formatear el peso antes de guardarlo
         temperature: '',
         classification: '',
         available: 'Disponible para Despiece',
@@ -70,7 +69,7 @@ class RawMaterialPurchase < ApplicationRecord
           raw_material_purchase: self,
           family: family,
           supplier: supplier,
-          description: description ,
+          description: description,
           channel_number: '',
           born_date: '',
           born_in: '',
@@ -79,7 +78,7 @@ class RawMaterialPurchase < ApplicationRecord
           slaughtered_in: '',
           crotal: '',
           lot: lot,
-          weight: '',
+          weight: sprintf('%.2f', weight), # Formatear el peso antes de guardarlo
           temperature: '',
           classification: '',
           available: 'Disponible para Despiece',

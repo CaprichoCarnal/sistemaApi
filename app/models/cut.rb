@@ -9,7 +9,7 @@ class Cut < ApplicationRecord
 
   def update_inventory
     inventory = Inventory.find_or_initialize_by(item: self)
-    inventory.weight = weight
+    inventory.weight = sprintf('%.2f', weight)
     inventory.lot = lot
     inventory.name = name
      # Definir la fecha actual

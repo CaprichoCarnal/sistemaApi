@@ -29,7 +29,7 @@ class PurchaseSupply < ApplicationRecord
       lot: self.lot,
       name: self.item,
       quantity: self.quantity,
-      weight: self.weight,
+      weight: sprintf('%.2f', self.weight),
       available_for_sale: true
     )
   end

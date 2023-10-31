@@ -9,7 +9,7 @@ class MixCut < ApplicationRecord
   def update_inventory
     inventory = Inventory.find_or_initialize_by(item: self)
     inventory.category = "Productos Elaborados"  # Categoría para los productos elaborados
-    inventory.weight = self.weight
+    inventory.weight =  sprintf('%.2f', self.weight)
     inventory.lot = self.lot
     inventory.name = self.name
     inventory.save
