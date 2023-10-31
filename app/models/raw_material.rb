@@ -11,7 +11,7 @@ class RawMaterial < ApplicationRecord
         raw_material: self,
         name: description,
         lot: lot,
-        weight: sprintf('%.2f', weight)
+        weight: sprintf('%.2f', weight),
         matured: false,
         maturity_start_date: nil,
         maturity_end_date: nil,
